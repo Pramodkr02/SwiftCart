@@ -1,0 +1,15 @@
+.productItem title {
+  line-height: 18px;
+}
+.productItem .actions button:hover svg {
+  color: #fff !important;
+}
+.productItem .actions button svg {
+  pointer-events: none !important;
+}
+.productItem .actions button {
+  border: 1px solid rgba(0, 0, 0, 0.142) !important;
+}
+.productItem {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}

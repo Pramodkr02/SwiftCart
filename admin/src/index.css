@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: boder-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  overflow-x: hidden;
+  background: #f1f1f1;
+}
+/* p {
+  font-size: 14px;
+  line-height: 25px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.container {
+  width: 94%;
+  margin: auto;
+}
+
+.link:hover {
+  color: #ff5252;
+}
+
+.btn-org {
+  background-color: #ff5252 !important;
+  color: white !important;
+  font-size: 16px;
+  border-radius: 5px !important;
+  padding: 6px 16px !important;
+}
+.btn-org:hover {
+  background-color: #0a0909e5 !important;
+}
+.btn-lg {
+  font-size: 18px;
+  padding: 10px 16px !important;
+} */
+.MuiBadge-badge {
+  background-color: #ff5252 !important;
+}
+.ReactCollapse--collapse {
+  transition: height 400ms;
+}
+
+.btn {
+  padding: 8px 20px !important;
+}
+.btn-sm {
+  padding: 8px 20px !important;
+  font-size: 13px !important;
+}
+
+.btn-blue {
+  background: #3872fa !important;
+  color: #fff !important;
+  padding: 8px 20px !important;
+}
+.btn-blue:hover {
+  background: #255bd7 !important;
+}
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+}
