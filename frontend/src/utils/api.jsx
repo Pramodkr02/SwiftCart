@@ -35,3 +35,18 @@ export const fetchDataFromApi = async (url) => {
     return error;
   }
 };
+
+export const uploadUserImage = async (url, updateData) => {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  var response;
+  await axios.put(apiUrl + url, updateData, params).then((res) => {
+    response = res;
+  });
+  return response;
+};
