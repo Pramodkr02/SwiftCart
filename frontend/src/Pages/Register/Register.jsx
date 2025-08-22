@@ -52,7 +52,6 @@ const Register = () => {
 
     postData("/api/user/register", formFields).then((res) => {
       setIsLoading(false);
-      context.openAlertBox("success", res?.message);
       localStorage.setItem("userEmail", formFields.email);
       if (res?.error !== true) {
         context.openAlertBox("success", res?.message);

@@ -17,12 +17,14 @@ import CheckoutPage from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount";
 import MyList from "./Pages/MyList/MyList";
 import Orders from "./Pages/Orders";
+import { fetchDataFromApi } from "./utils/api";
 
 const MyContext = createContext();
 
 function App() {
   const [openCartPanel, setOpenCartPanel] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [userData, setUserData] = useState(null);
   const toggleCartPanel = (newOpen) => () => {
     setOpenCartPanel(newOpen);
   };
@@ -46,12 +48,27 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token !== undefined && token !== null && token !== "") {
+      setIsLogin(true);
+      fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res) => {
+        console.log(res);
+        setUserData(res.data);
+      });
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
   const values = {
     setOpenCartPanel,
     toggleCartPanel,
     openAlertBox,
     isLogin,
     setIsLogin,
+    setUserData,
+    userData,
   };
 
   return (

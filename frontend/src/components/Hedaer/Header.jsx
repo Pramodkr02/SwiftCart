@@ -16,7 +16,6 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { Button } from "@mui/material";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { fetchDataFromApi, postData } from "../../utils/api";
@@ -44,18 +43,16 @@ const Header = () => {
 
   const logout = () => {
     setAnchorEl(null);
-    localStorage.removeItem("token");
-    context.setIsLogin(false);
 
-    // fetchDataFromApi(
-    //   `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
-    //   { withCredentials: true }
-    // ).then((res) => {
-    //   console.log(res);
-    //   context.setIsLogin(false);
-    //   localStorage.removeItem("accessToken");
-    //   localStorage.removeItem("refreshToken");
-    // });
+    fetchDataFromApi(
+      `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
+      { withCredentials: true }
+    ).then((res) => {
+      console.log(res);
+      context.setIsLogin(false);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    });
   };
   return (
     <header className="bg-white">
@@ -122,12 +119,14 @@ const Header = () => {
                     onClick={handleClick}
                     className="myAccountWrap flex items-center gap-3 cursor-pointer"
                   >
+                    <div className="info">
+                      <h4 className="text-[14px] font-bold">
+                        {context?.userData?.name}
+                      </h4>
+                    </div>
                     <Button className="!w-[40px] !h-[40px] !min-w-[40px] !min-h-[40px] !rounded-full !bg-[#f1f1f1]">
                       <FaRegUser className="text-[18px] text-[#00000087]" />
                     </Button>
-                    <div className="info">
-                      <h4 className="text-[14px] font-bold">Pramod Kumar</h4>
-                    </div>
                   </div>
 
                   <Menu

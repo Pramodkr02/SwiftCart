@@ -20,6 +20,7 @@ const userRouter = Router();
 userRouter.post("/register", registerUserController);
 userRouter.post("/verifyEmail", verifyEmailController);
 userRouter.post("/login", loginUserController);
+userRouter.get("/logout", auth, logoutController);
 userRouter.post("/forgot-password", forgotPasswordController);
 userRouter.post("/verify-forgot-password-otp", verifyForgotPasswordController);
 userRouter.post("/reset-password", restPasswordController);
@@ -32,7 +33,6 @@ userRouter.put(
 );
 userRouter.put("/:id", auth, updateUserDetail);
 userRouter.delete("/deleteimage", auth, removeImageCloudinry);
-userRouter.get("/logout", auth, logoutController);
 userRouter.get("/user-details", auth, getuserController);
 
 export { userRouter };

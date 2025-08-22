@@ -9,9 +9,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { postData } from "../../utils/api";
 
 const LoginPage = () => {
-  const [isShowPassword, setIsShowPassword] = useState(true);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
@@ -21,9 +20,26 @@ const LoginPage = () => {
   const history = useNavigate();
   const validValue = Object.values(formFields).every((el) => el);
 
-  const frogotPassword = () => {
-    context.openAlertBox("success", "OTP Send");
-    history("/verify");
+  const forgotPassword = () => {
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please enter email id");
+      return false;
+    } else {
+      context.openAlertBox("success", `OTP sent to ${formFields.email}`);
+      localStorage.setItem("userEmail", formFields.email);
+      localStorage.setItem("actionType", "forgot-password");
+
+      postData("/api/user/forgot-password", {
+        email: formFields.email,
+      }).then((res) => {
+        if (res?.error === false) {
+          context.openAlertBox("success", res?.message);
+          history("/verify");
+        } else {
+          context.openAlertBox("error", res?.message);
+        }
+      });
+    }
   };
 
   const onChangeInput = (e) => {
@@ -52,6 +68,7 @@ const LoginPage = () => {
 
     postData("/api/user/login", formFields, { withCredentials: true }).then(
       (res) => {
+        console.log(res);
         if (res?.error !== true) {
           setIsLoading(false);
           context.openAlertBox("success", res?.message);
@@ -107,7 +124,6 @@ const LoginPage = () => {
                 onChange={onChangeInput}
               />
               <Button
-                type="submit"
                 onClick={() => setIsShowPassword(!isShowPassword)}
                 className="!absolute top-[10px]    right-[10px] z-50 !w-[35px] !h-[35px] !min-w-[35px] !rounded-full !text-black "
               >
@@ -121,7 +137,7 @@ const LoginPage = () => {
 
             <a
               className="link cursor-pointer text-[14px] font-[600]"
-              onClick={frogotPassword}
+              onClick={forgotPassword}
             >
               Forgot Password?
             </a>

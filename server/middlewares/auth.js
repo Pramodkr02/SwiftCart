@@ -15,10 +15,7 @@ const auth = async (req, res, next) => {
       });
     }
 
-    const decode = await jwt.verify(
-      token,
-      process.env.JSON_WEB_TOKEN_SECRET_KEY
-    );
+    const decode = await jwt.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
 
     if (!decode) {
       return res.status(401).json({

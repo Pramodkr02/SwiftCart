@@ -90,7 +90,7 @@ export async function registerUserController(req, res) {
 //verifyEmail controller
 export async function verifyEmailController(req, res) {
   try {
-    const { email } = req.body;
+    const { email, otp } = req.body;
     const user = await UserModel.findOne({ email: email });
 
     if (!user) {
@@ -101,8 +101,8 @@ export async function verifyEmailController(req, res) {
       });
     }
 
-    const isCodeValid = user.otp;
-    const isNotExpired = user.otpExpires > Date.now();
+    const isCodeValid = user.otp && user.otp === otp; // compare here
+    const isNotExpired = user.otpExpires && user.otpExpires > Date.now();
 
     if (isCodeValid && isNotExpired) {
       user.verify_email = true;
@@ -217,7 +217,7 @@ export async function logoutController(req, res) {
     res.clearCookie("accessToken", cookiesOption);
     res.clearCookie("refreshToken", cookiesOption);
 
-    const removeRefreshToken = await UserModel.findByIdAndDelete(userid, {
+    const removeRefreshToken = await UserModel.findByIdAndUpdate(userid, {
       refresh_token: "",
     });
 
@@ -438,7 +438,7 @@ export async function verifyForgotPasswordController(req, res) {
 
     if (!email || !otp) {
       return res.status(400).json({
-        message: "provide required field email, otp.",
+        message: "provide required field email, OTP.",
         error: true,
         success: false,
       });
@@ -464,20 +464,20 @@ export async function verifyForgotPasswordController(req, res) {
 
     const currentTime = new Date().toISOString();
 
-    if (user.otpExpires < currentTime) {
-      return res.status(400).json({
-        message: "OTP is Expired",
-        error: true,
-        success: false,
-      });
-    }
+    // if (user.otpExpires < currentTime) {
+    //   return res.status(400).json({
+    //     message: "OTP is Expired",
+    //     error: true,
+    //     success: false,
+    //   });
+    // }
 
     user.otp = "";
     user.otpExpires = "";
 
     await user.save();
 
-    return res.status(400).json({
+    return res.status(200).json({
       message: "OTP verified successfully",
       error: false,
       success: true,
@@ -492,7 +492,7 @@ export async function verifyForgotPasswordController(req, res) {
 }
 
 //reset password
-export async function restPasswordController(res, req) {
+export async function restPasswordController(req, res) {
   try {
     const { email, newPassword, confirmPassword } = req.body;
 
@@ -531,7 +531,7 @@ export async function restPasswordController(res, req) {
     }
 
     const salt = await bcryptjs.genSalt(10);
-    const hashPassword = await bcryptjs.hash(confirmPassword, salt);
+    const hashPassword = await bcryptjs.hash(newPassword, salt);
 
     user.password = hashPassword;
     await user.save();
@@ -542,7 +542,7 @@ export async function restPasswordController(res, req) {
       error: true,
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       message: error.message || error,
       success: false,
       error: true,
