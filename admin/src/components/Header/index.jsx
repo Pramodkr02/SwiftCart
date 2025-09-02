@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import { MdOutlineSearch } from "react-icons/md";
 import { RiMenu2Fill } from "react-icons/ri";
@@ -8,10 +9,11 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import { FaRegUser } from "react-icons/fa6";
 import { IoMdLogOut } from "react-icons/io";
-
-import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
+import { useContext } from "react";
+import { MyContext } from "../../App";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -34,8 +36,24 @@ const Header = () => {
     setAnchorMyAcc(false);
   };
 
+  const logout = () => {
+    setAnchorMyAcc(false);
+    fetchDataFromApi(
+      `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
+      { withCredentials: true }
+    ).then((res) => {
+      if (res?.error === false) {
+        context.setIsLogin(false);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      }
+    });
+  };
+
+  const context = useContext(MyContext);
+
   return (
-    <header className="w-full pl-64 pr-7 h-auto py-2 shadow-md bg-[#fff] flex items-center justify-between">
+    <header className="w-full  pl-64 pr-7 h-auto py-2 shadow-md bg-[rgb(255,255,255)] flex items-center justify-between">
       <div className="part1">
         <Button className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]">
           <RiMenu2Fill className="text-[19px] text-[rgba(0,0,0,0.8)]" />
@@ -48,7 +66,6 @@ const Header = () => {
             <IoMdNotificationsOutline />
           </StyledBadge>
         </IconButton>
-
         <div className="relative">
           <div
             className="rounded-full w-[30px] h-[30px] overflow-hidden cursor-pointer "
@@ -60,13 +77,11 @@ const Header = () => {
               className="w-full h-full object-cover"
             />
           </div>
-
           <Menu
-            anchorEl={anchorMyAcc}
+            anchorMyAcc={anchorMyAcc}
             id="my-account"
             open={openMyAcc}
             onClose={handleCloseMyAcc}
-            onClick={handleCloseMyAcc}
             slotProps={{
               paper: {
                 elevation: 0,
@@ -110,11 +125,15 @@ const Header = () => {
 
                 <div className="info">
                   <h3 className="text-[15px] leading-5 font-[500]">
-                    Pramod Kumar
+                    {context.isLogin === true
+                      ? context?.userData?.name
+                      : "User"}
                   </h3>
-                  <p className="text-[13px] font-[400] opacity-75">
-                    admin-01@ecme.com
-                  </p>
+                  {/* <p className="text-[13px] font-[400] opacity-75">
+                    {context.isLogin === true
+                      ? context?.userData?.email
+                      : "User Email"}
+                  </p> */}
                 </div>
               </div>
             </MenuItem>
@@ -129,13 +148,25 @@ const Header = () => {
               <span className="text-[14px]">Profile</span>
             </MenuItem>
 
-            <MenuItem
-              onClick={handleCloseMyAcc}
-              className="flex items-center gap-3"
-            >
-              <IoMdLogOut className="text-[18px]" />
-              <span className="text-[14px]">Sign Out</span>
-            </MenuItem>
+            {context.isLogin === false ? (
+              <MenuItem
+                onClick={handleCloseMyAcc}
+                className="flex items-center gap-3"
+              >
+                <IoMdLogOut onClick={logout} className="text-[18px]" />
+                <span className="text-[14px]">Logout</span>
+              </MenuItem>
+            ) : (
+              <Link to="/login">
+                <MenuItem
+                  onClick={handleCloseMyAcc}
+                  className="flex items-center gap-3"
+                >
+                  <IoMdLogOut className="text-[18px]" />
+                  <span className="text-[14px]">Login</span>
+                </MenuItem>
+              </Link>
+            )}
           </Menu>
         </div>
       </div>
