@@ -53,8 +53,16 @@ function App() {
     if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true);
       fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res) => {
-        console.log(res);
         setUserData(res.data);
+        if (res.response?.data?.error === true) {
+          if (res.response?.data?.message === "You have not login") {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            openAlertBox("error", "Session expired. Please login again.");
+
+            setIsLogin(false);
+          }
+        }
       });
     } else {
       setIsLogin(false);
