@@ -8,6 +8,7 @@ const auth = async (req, res, next) => {
     if (!token) {
       token = req.query.token;
     }
+    // hii
 
     if (!token) {
       return res.status(401).json({
