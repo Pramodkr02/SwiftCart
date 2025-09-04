@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   const logout = () => {
-    setAnchorMyAcc(false);
+    setAnchorMyAcc(null);
     fetchDataFromApi(
       `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
       { withCredentials: true }
@@ -66,17 +66,26 @@ const Header = () => {
             <IoMdNotificationsOutline />
           </StyledBadge>
         </IconButton>
+
         <div className="relative">
-          <div
-            className="rounded-full w-[30px] h-[30px] overflow-hidden cursor-pointer "
-            onClick={() => handleClickMyAcc()}
-          >
-            <img
-              src="https://tse1.mm.bing.net/th?id=OIP.im5y-aBpUoExkNfxAxX8NwHaHa&pid=Api&P=0&h=220"
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </div>
+          {context.isLogin === true ? (
+            <div
+              className="rounded-full w-[30px] h-[30px] overflow-hidden cursor-pointer "
+              onClick={() => handleClickMyAcc()}
+            >
+              <img
+                src="https://tse1.mm.bing.net/th?id=OIP.im5y-aBpUoExkNfxAxX8NwHaHa&pid=Api&P=0&h=220"
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <Link to="/sign-up">
+              <Button className="flex !h-auto !w-auto !px-3 !py-1  !border !rounded-3xl !bg-blue-700 !text-white">
+                sign in
+              </Button>
+            </Link>
+          )}
           <Menu
             anchorMyAcc={anchorMyAcc}
             id="my-account"
@@ -129,44 +138,29 @@ const Header = () => {
                       ? context?.userData?.name
                       : "User"}
                   </h3>
-                  {/* <p className="text-[13px] font-[400] opacity-75">
-                    {context.isLogin === true
-                      ? context?.userData?.email
-                      : "User Email"}
-                  </p> */}
                 </div>
               </div>
             </MenuItem>
 
             <Divider />
 
-            <MenuItem
-              onClick={handleCloseMyAcc}
-              className="flex items-center gap-3"
-            >
-              <FaRegUser className="text-[17px]" />
-              <span className="text-[14px]">Profile</span>
-            </MenuItem>
-
-            {context.isLogin === false ? (
+            <Link to="/profile">
               <MenuItem
                 onClick={handleCloseMyAcc}
                 className="flex items-center gap-3"
               >
-                <IoMdLogOut onClick={logout} className="text-[18px]" />
-                <span className="text-[14px]">Logout</span>
+                <FaRegUser className="text-[17px]" />
+                <span className="text-[14px]">Profile</span>
               </MenuItem>
-            ) : (
-              <Link to="/login">
-                <MenuItem
-                  onClick={handleCloseMyAcc}
-                  className="flex items-center gap-3"
-                >
-                  <IoMdLogOut className="text-[18px]" />
-                  <span className="text-[14px]">Login</span>
-                </MenuItem>
-              </Link>
-            )}
+            </Link>
+
+            <MenuItem
+              onClick={handleCloseMyAcc}
+              className="flex items-center gap-3"
+            >
+              <IoMdLogOut onClick={logout} className="text-[18px]" />
+              <span className="text-[14px]">Logout</span>
+            </MenuItem>
           </Menu>
         </div>
       </div>

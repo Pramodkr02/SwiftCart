@@ -135,3 +135,40 @@ h6 {
   top: 50px !important;
   position: absolute !important;
 }
+
+input[type="text"]:disabled,
+input[type="email"]:disabled {
+  pointer-events: none;
+  background: #f1f1f1 !important;
+}
+
+.react-international-phone-input {
+  width: 95% !important;
+}
+
+.react-international-phone-country-selector-button {
+  width: 55px !important;
+}
+.react-international-phone-input-container {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.MuiAppBar-colorPrimary {
+  background: #eaeaea !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.MuiSelect-select {
+  background: white !important;
+}
+
+.MuiDialog-paper {
+  background: #f9fafb !important;
+}

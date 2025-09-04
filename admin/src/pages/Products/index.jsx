@@ -1,16 +1,507 @@
 import { Button } from "@mui/material";
-import React from "react";
-import { FaPlus } from "react-icons/fa6";
+import React, { useContext, useState } from "react";
+
+import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
+import { GoTrash } from "react-icons/go";
+import ProgressBar from "../../components/ProgressBar";
+import { BiEditAlt } from "react-icons/bi";
+import { FaRegEye } from "react-icons/fa";
+import Tooltip from "@mui/material/Tooltip";
+import Pagination from "@mui/material/Pagination";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { BiExport } from "react-icons/bi";
+import { IoMdAdd } from "react-icons/io";
+import SearchBox from "../../components/SearchBox";
+import { MyContext } from "../../App";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Products = () => {
+  const [categoryFilterVal, setCategoryFilterVal] = useState("");
+  const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
+
+  const context = useContext(MyContext);
+
+  const isShowOrderProduct = (index) => {
+    if (isOpenOrderProduct === index) {
+      setIsOpenOrderProduct(null);
+    } else {
+      setIsOpenOrderProduct(index);
+    }
+  };
+
+  const handleChangeCatFilter = (event) => {
+    setCategoryFilterVal(event.target.value);
+  };
+
   return (
-    <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
-      <h1 className="font-[700] text-[20px] text-gray-800">Products</h1>
-      <Button className="btn-blue btn-sm !ml-auto flex !gap-2">
-        <FaPlus className="text-white text-[18px]" />
-        Add Product
-      </Button>
-    </div>
+    <>
+      <div className="card my-4 shadow-md bg-white sm:rounded-lg">
+        <div className="flex items-center justify-between px-5 py-5">
+          <h2 className="text-[18px] font-[600]">Products </h2>
+          <div className="col w-[50%] flex items-center gap-3 justify-end">
+            <Button className="btn !bg-green-500 !text-white btn-sm !flex !items-center !gap-2">
+              <BiExport className="text-[20px] font-[500]" />
+              <span>Export</span>
+            </Button>
+            <Button
+              className="btn !bg-blue-500 !text-white btn-sm !flex !items-center !gap-2"
+              onClick={() =>
+                context.setIsOpenFullScreenPanel({
+                  open: true,
+                  model: "Add Product",
+                })
+              }
+            >
+              <IoMdAdd className="text-[20px] font-[500]" />
+              Add Product
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between w-full pl-5 pr-5">
+          <div className="col w-[20%]">
+            <h4 className="font-[600] uppercase text-[13px] mb-2">
+              Category by
+            </h4>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={categoryFilterVal}
+              onChange={handleChangeCatFilter}
+              label="Category"
+              className="w-full"
+              size="small"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Man</MenuItem>
+              <MenuItem value={20}>Women</MenuItem>
+              <MenuItem value={30}>Kid's</MenuItem>
+            </Select>
+          </div>
+
+          <div className="col w-[20%] ml-auto">
+            <SearchBox />
+          </div>
+        </div>
+        <div className="relative overflow-x-auto sm:rounded-lg pb-5">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs !text-black uppercase bg-gray-50 dark:text-gray-600">
+              <tr>
+                <th scope="col" className="pl-6 py-3">
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <th scope="col" className="px-0 mr-0 mx-0 pr-0 py-3">
+                  Product
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  category
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  sub category
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Price
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Sales
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="odd:bg-white odd:dark:bg-gray-100  even:bg-gray-50 border-b dark:border-gray-800 border-gray-700">
+                <th
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
+                  <div className="flex items-center gap-4 w-[300px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                    <div className="info w-[75%]">
+                      <h3 className="font-[600] text-[12px] leading-4  flex hover:text-primary ">
+                        <Link to="/product/2547">
+                          Here are some examples of customizing the component.
+                          You can learn
+                        </Link>
+                      </h3>
+
+                      <span className="text-[12px]">Peter Land</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Electronics</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Women</span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="oldPrice  leading-3 line-through text-gray-500 text-[14px] font-[500]">
+                      $581.00
+                    </span>
+                    <span className="price text-primary text-[14px] font-[600]">
+                      $254.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 ">
+                  <p className="text-[14px] w-[100px]">
+                    <span className="font-[600]">256</span> Sale
+                  </p>
+                  <ProgressBar value={50} type="warning" />
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="View Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Remove Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
+                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-100  even:bg-gray-50 border-b dark:border-gray-800 border-gray-700">
+                <th
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
+                  <div className="flex items-center gap-4 w-[300px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                    <div className="info w-[75%]">
+                      <h3 className="font-[600] text-[12px] leading-4  flex hover:text-primary ">
+                        <Link to="/product/2547">
+                          Here are some examples of customizing the component.
+                          You can learn
+                        </Link>
+                      </h3>
+
+                      <span className="text-[12px]">Peter Land</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Electronics</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Women</span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="oldPrice  leading-3 line-through text-gray-500 text-[14px] font-[500]">
+                      $581.00
+                    </span>
+                    <span className="price text-primary text-[14px] font-[600]">
+                      $254.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 ">
+                  <p className="text-[14px] w-[100px]">
+                    <span className="font-[600]">256</span> Sale
+                  </p>
+                  <ProgressBar value={50} type="warning" />
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="View Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Remove Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
+                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-100  even:bg-gray-50 border-b dark:border-gray-800 border-gray-700">
+                <th
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
+                  <div className="flex items-center gap-4 w-[300px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                    <div className="info w-[75%]">
+                      <h3 className="font-[600] text-[12px] leading-4  flex hover:text-primary ">
+                        <Link to="/product/2547">
+                          Here are some examples of customizing the component.
+                          You can learn
+                        </Link>
+                      </h3>
+
+                      <span className="text-[12px]">Peter Land</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Electronics</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Women</span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="oldPrice  leading-3 line-through text-gray-500 text-[14px] font-[500]">
+                      $581.00
+                    </span>
+                    <span className="price text-primary text-[14px] font-[600]">
+                      $254.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 ">
+                  <p className="text-[14px] w-[100px]">
+                    <span className="font-[600]">256</span> Sale
+                  </p>
+                  <ProgressBar value={50} type="warning" />
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="View Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Remove Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
+                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-100  even:bg-gray-50 border-b dark:border-gray-800 border-gray-700">
+                <th
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
+                  <div className="flex items-center gap-4 w-[300px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                    <div className="info w-[75%]">
+                      <h3 className="font-[600] text-[12px] leading-4  flex hover:text-primary ">
+                        <Link to="/product/2547">
+                          Here are some examples of customizing the component.
+                          You can learn
+                        </Link>
+                      </h3>
+
+                      <span className="text-[12px]">Peter Land</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Electronics</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Women</span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="oldPrice  leading-3 line-through text-gray-500 text-[14px] font-[500]">
+                      $581.00
+                    </span>
+                    <span className="price text-primary text-[14px] font-[600]">
+                      $254.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 ">
+                  <p className="text-[14px] w-[100px]">
+                    <span className="font-[600]">256</span> Sale
+                  </p>
+                  <ProgressBar value={50} type="warning" />
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="View Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Remove Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
+                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-100  even:bg-gray-50 border-b dark:border-gray-800 border-gray-700">
+                <th
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </th>
+                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
+                  <div className="flex items-center gap-4 w-[300px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                    <div className="info w-[75%]">
+                      <h3 className="font-[600] text-[12px] leading-4  flex hover:text-primary ">
+                        <Link to="/product/2547">
+                          Here are some examples of customizing the component.
+                          You can learn
+                        </Link>
+                      </h3>
+
+                      <span className="text-[12px]">Peter Land</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Electronics</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500]">Women</span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="oldPrice  leading-3 line-through text-gray-500 text-[14px] font-[500]">
+                      $581.00
+                    </span>
+                    <span className="price text-primary text-[14px] font-[600]">
+                      $254.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 ">
+                  <p className="text-[14px] w-[100px]">
+                    <span className="font-[600]">256</span> Sale
+                  </p>
+                  <ProgressBar value={50} type="warning" />
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="View Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
+                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Remove Product" placement="top">
+                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
+                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex items-center justify-end pb-4 bt-4 px-4">
+          <Pagination count={10} color="primary" />
+        </div>
+      </div>
+    </>
   );
 };
 

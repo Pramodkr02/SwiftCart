@@ -153,7 +153,7 @@ const MyAccount = () => {
                 <Button
                   type="submit"
                   disabled={!validValue}
-                  className="btn-org btn-lg  w-[100px]"
+                  className="btn-org btn-lg  !w-auto !h-auto !px-4 !py-2"
                 >
                   {isLoading === true ? (
                     <CircularProgress color="inherit" />
