@@ -20,7 +20,7 @@ export const addToCartItemController = async (req, res) => {
     });
 
     if (checkItemCart) {
-      return Response.status(400).json({
+      return res.status(400).json({
         message: "Item already in cart",
       });
     }

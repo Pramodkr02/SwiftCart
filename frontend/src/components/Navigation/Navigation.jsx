@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navigation.css";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -6,13 +6,29 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import CategoryPanel from "../CategoryPanel/CategoryPanel";
+import { MyContext } from "../../App";
+import MobileNav from "./MobileNav";
 
 const Navigation = () => {
+  const context = useContext(MyContext);
+
   const [isOpneCatPanel, setIsOpencatPanel] = useState(false);
 
   const opneCategoryPanel = () => {
     setIsOpencatPanel(true);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      context.setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -119,6 +135,9 @@ const Navigation = () => {
         isOpneCatPanel={isOpneCatPanel}
         setIsOpencatPanel={setIsOpencatPanel}
       />
+
+      {/* ✅ Fixed Bottom Nav (only on mobile) */}
+      {context.windowWidth < 992 && <MobileNav />}
     </>
   );
 };

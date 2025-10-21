@@ -60,6 +60,8 @@ const App = () => {
           localStorage.removeItem("refreshToken");
 
           openAlertBox("error", "Your session is closed please log in again");
+
+          window.location.href = "/login";
         }
       });
     } else {
@@ -230,7 +232,6 @@ const App = () => {
       <UserContextProvider>
         <MyContext.Provider value={values}>
           <RouterProvider router={router} />
-
           <ProductCart />
         </MyContext.Provider>
       </UserContextProvider>

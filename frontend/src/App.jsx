@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import "./responsive.css";
 import Header from "./components/Hedaer/Header";
 import Home from "./Pages/Home/Home";
 import ProductListing from "./Pages/ProductListing/ProductListing";
@@ -7,7 +8,6 @@ import ProductDetail from "./Pages/ProductDetail/ProductDetail";
 import React, { createContext, useEffect, useState } from "react";
 import LoginPage from "./Pages/Login/LoginPage";
 import Register from "./Pages/Register/Register";
-
 import SideCart from "./components/SideCart/SideCart";
 import CartPage from "./Pages/Cart/Cart";
 import Verify from "./Pages/Verify";
@@ -25,6 +25,7 @@ function App() {
   const [openCartPanel, setOpenCartPanel] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const toggleCartPanel = (newOpen) => () => {
     setOpenCartPanel(newOpen);
   };
@@ -60,6 +61,8 @@ function App() {
             localStorage.removeItem("refreshToken");
             openAlertBox("error", "Session expired. Please login again.");
 
+            window.location.href = "/login";
+
             setIsLogin(false);
           }
         }
@@ -77,6 +80,8 @@ function App() {
     setIsLogin,
     setUserData,
     userData,
+    windowWidth,
+    setWindowWidth,
   };
 
   return (

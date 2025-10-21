@@ -30,7 +30,7 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token === null) {
-      history("/");
+      history("/login");
     }
   }, [context?.isLogin]);
 

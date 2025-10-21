@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import AccountSideBar from "../../components/AccountSideBar";
 import { MyContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { editData } from "../../utils/api";
 
 const MyAccount = () => {
@@ -149,7 +149,7 @@ const MyAccount = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center justify-between">
                 <Button
                   type="submit"
                   disabled={!validValue}
@@ -161,6 +161,15 @@ const MyAccount = () => {
                     "Update Profile"
                   )}
                 </Button>
+                <Link to="/change-password">
+                  <Button
+                    type=""
+                    disabled={!validValue}
+                    className="btn-org btn-lg  !w-auto !h-auto !px-4 !py-2"
+                  >
+                    Change Password
+                  </Button>
+                </Link>
               </div>
             </form>
           </div>
