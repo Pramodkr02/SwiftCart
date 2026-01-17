@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import ForgotPswrd from "../../../public/ForgotPswrd.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import { postData } from "../../utils/api";

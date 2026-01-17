@@ -10,7 +10,7 @@ import { FaCodeCompare } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import Tooltip from "@mui/material/Tooltip";
 import Navigation from "../Navigation/Navigation";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import { FaRegUser } from "react-icons/fa";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";

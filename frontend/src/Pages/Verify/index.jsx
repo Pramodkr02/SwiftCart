@@ -3,7 +3,7 @@ import Verify1 from "../../../public/shieldOTP.png";
 import OtpBox from "../../components/OtpBox";
 import { Button } from "@mui/material";
 import { postData } from "../../utils/api";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import { useNavigate } from "react-router-dom";
 
 const Verify = () => {

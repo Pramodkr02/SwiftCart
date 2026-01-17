@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Home from "./Pages/Home/Home";
 import ProductListing from "./Pages/ProductListing/ProductListing";
 import ProductDetail from "./Pages/ProductDetail/ProductDetail";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginPage from "./Pages/Login/LoginPage";
 import Register from "./Pages/Register/Register";
 import SideCart from "./components/SideCart/SideCart";
@@ -20,8 +20,8 @@ import MyAccount from "./Pages/MyAccount";
 import MyList from "./Pages/MyList/MyList";
 import Orders from "./Pages/Orders";
 import { fetchDataFromApi } from "./utils/api";
+import { MyContext } from "./MyContext";
 
-const MyContext = createContext();
 
 function App() {
   const [openCartPanel, setOpenCartPanel] = useState(false);
@@ -119,18 +119,17 @@ function App() {
           </Routes>
           <Footer />
         </MyContext.Provider>
+        <Toaster />
+
+        {/* cart panel */}
+        <SideCart
+          openCartPanel={openCartPanel}
+          toggleCartPanel={toggleCartPanel}
+        />
       </BrowserRouter>
-
-      <Toaster />
-
-      {/* cart panel */}
-      <SideCart
-        openCartPanel={openCartPanel}
-        toggleCartPanel={toggleCartPanel}
-      />
     </>
   );
 }
 
 export default App;
-export { MyContext };
+

@@ -2,7 +2,7 @@ import { Button, CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import AccountSideBar from "../../components/AccountSideBar";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import { Link, useNavigate } from "react-router-dom";
 import { editData } from "../../utils/api";
 

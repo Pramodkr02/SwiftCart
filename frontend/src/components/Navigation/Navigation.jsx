@@ -6,7 +6,7 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import CategoryPanel from "../CategoryPanel/CategoryPanel";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import MobileNav from "./MobileNav";
 
 const Navigation = () => {

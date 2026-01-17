@@ -11,11 +11,11 @@ import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
-function ProductItemListView() {
+function ProductItemListView(props) {
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group flex items-center">
       <div className="imgWrapper w-[25%]  overflow-hidden rounded-md relative">
-        <Link to="/product/:id">
+        <Link to={`/product/${props.id || 1}`}>
           <div className="img h-[250px] overflow-hidden ">
             <img
               src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-0-202206061625.jpg?im=Resize=(600,750)"
@@ -54,12 +54,12 @@ function ProductItemListView() {
       </div>
       <div className="info p-3 px-8 py-5 w-[75%]">
         <h6 className="text-[15px] !font-[400]">
-          <Link className="link transition-all capitalize" to="/">
+          <Link className="link transition-all capitalize" to={`/product/${props.id || 1}`}>
             soylent Green
           </Link>
         </h6>
         <h3 className="text-[18px] title mt-3 font-[500] text-[rgba(0,0,0,0.9)] mb-3">
-          <Link className="link transition-all" to="/">
+          <Link className="link transition-all" to={`/product/${props.id || 1}`}>
             Siril Georgette Pink Color Saree With Blouse piece
           </Link>
         </h3>

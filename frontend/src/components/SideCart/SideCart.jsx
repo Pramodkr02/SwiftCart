@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+ import React, { useContext, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const SideCart = ({ openCartPanel, toggleCartPanel }) => {
   return (
@@ -171,12 +172,24 @@ const SideCart = ({ openCartPanel, toggleCartPanel }) => {
               <span className="text-primary font-bold">$86.2</span>
             </div>
 
-            <div className="flex items-center justify-between w-full gap-5 mt-4">
-              <Button className="btn-org btn-lg w-[50%]">View cart</Button>
-              <Button className="btn-org btn-border btn-lg w-[50%]">
-                checkOut
-              </Button>
-            </div>
+              <div className="flex items-center justify-between w-full gap-5 mt-4">
+                <Link to="/cart" className="w-[50%]">
+                  <Button
+                    className="btn-org btn-lg w-full"
+                    onClick={toggleCartPanel(false)}
+                  >
+                    View cart
+                  </Button>
+                </Link>
+                <Link to="/checkout" className="w-[50%]">
+                  <Button
+                    className="btn-org btn-border btn-lg w-full"
+                    onClick={toggleCartPanel(false)}
+                  >
+                    checkOut
+                  </Button>
+                </Link>
+              </div>
           </div>
         </div>
       </Drawer>

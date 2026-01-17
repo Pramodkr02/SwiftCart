@@ -4,7 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { MyContext } from "../../App";
+import { MyContext } from "../../MyContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { postData } from "../../utils/api";
 

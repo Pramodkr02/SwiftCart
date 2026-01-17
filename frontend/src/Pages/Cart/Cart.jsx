@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsBagCheckFill } from "react-icons/bs";
 import { Button } from "@mui/material";
 import CartItems from "./CartItems";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   return (
@@ -49,9 +50,11 @@ const CartPage = () => {
               <span className="font-bold text-primary">$2,256</span>
             </p>
 
-            <Button className="btn-org btn-lg w-full flex gap-2">
-              <BsBagCheckFill className="text-[18px]" /> Checkout
-            </Button>
+            <Link to="/checkout">
+              <Button className="btn-org btn-lg w-full flex gap-2">
+                <BsBagCheckFill className="text-[18px]" /> Checkout
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

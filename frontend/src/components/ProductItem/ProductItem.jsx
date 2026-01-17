@@ -10,11 +10,11 @@ import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 
-function ProductItem() {
+function ProductItem(props) {
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group">
       <div className="imgWrapper w-[100%]  overflow-hidden rounded-md relative">
-        <Link to="product/:id">
+        <Link to={`/product/${props.id || 1}`}>
           <div className="img h-[250px] overflow-hidden ">
             <img
               src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-0-202206061625.jpg?im=Resize=(600,750)"
@@ -53,12 +53,12 @@ function ProductItem() {
       </div>
       <div className="info p-3 py-5">
         <h6 className="text-[13px] !font-[400]">
-          <Link className="link transition-all capitalize" to="/">
+          <Link className="link transition-all capitalize" to={`/product/${props.id || 1}`}>
             soylent Green
           </Link>
         </h6>
         <h3 className="text-[14px] title mt-1 font-[500] text-[rgba(0,0,0,0.9)] mb-1">
-          <Link className="link transition-all" to="/">
+          <Link className="link transition-all" to={`/product/${props.id || 1}`}>
             Siril Georgette Pink Color Saree With Blouse piece
           </Link>
         </h3>

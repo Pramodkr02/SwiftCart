@@ -17,6 +17,24 @@ const ProductSlider = (props) => {
         pagination={{
           clickable: true,
         }}
+        breakpoints={{
+          300: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          576: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+          },
+          1024: {
+            slidesPerView: props.items || 5,
+            spaceBetween: 10,
+          },
+        }}
         modules={[Navigation]}
         className="mySwiper"
       >
