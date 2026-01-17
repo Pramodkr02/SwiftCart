@@ -104,6 +104,221 @@ const Users = () => {
                   </span>
                 </td>
               </tr>
+              <tr className="border-b">
+                <td
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+                <td className="px-0 mr-0 py-4 pr-0 w-[200px]">
+                  <div className="flex items-center gap-4 w-[200px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className=" py-4">
+                  <span className="font-[500]">Pramod Kumar</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdOutlineMarkEmailRead />
+                    </span>
+                    pramodkr02.info@gmail.com
+                  </span>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdLocalPhone />
+                    </span>
+                    +91-8794365800
+                  </span>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+                <td className="px-0 mr-0 py-4 pr-0 w-[200px]">
+                  <div className="flex items-center gap-4 w-[200px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className=" py-4">
+                  <span className="font-[500]">Pramod Kumar</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdOutlineMarkEmailRead />
+                    </span>
+                    pramodkr02.info@gmail.com
+                  </span>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdLocalPhone />
+                    </span>
+                    +91-8794365800
+                  </span>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+                <td className="px-0 mr-0 py-4 pr-0 w-[200px]">
+                  <div className="flex items-center gap-4 w-[200px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className=" py-4">
+                  <span className="font-[500]">Pramod Kumar</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdOutlineMarkEmailRead />
+                    </span>
+                    pramodkr02.info@gmail.com
+                  </span>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdLocalPhone />
+                    </span>
+                    +91-8794365800
+                  </span>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+                <td className="px-0 mr-0 py-4 pr-0 w-[200px]">
+                  <div className="flex items-center gap-4 w-[200px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className=" py-4">
+                  <span className="font-[500]">Pramod Kumar</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdOutlineMarkEmailRead />
+                    </span>
+                    pramodkr02.info@gmail.com
+                  </span>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdLocalPhone />
+                    </span>
+                    +91-8794365800
+                  </span>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td
+                  scope="row"
+                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
+                >
+                  <div className="w-[60px]">
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+                <td className="px-0 mr-0 py-4 pr-0 w-[200px]">
+                  <div className="flex items-center gap-4 w-[200px]">
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                      <Link to="/product/2547">
+                        <img
+                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
+                          alt=""
+                          className="w-full group-hover:scale-105 transition-all"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className=" py-4">
+                  <span className="font-[500]">Pramod Kumar</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdOutlineMarkEmailRead />
+                    </span>
+                    pramodkr02.info@gmail.com
+                  </span>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="font-[500] flex items-center  gap-2">
+                    <span className="pt-1">
+                      <MdLocalPhone />
+                    </span>
+                    +91-8794365800
+                  </span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

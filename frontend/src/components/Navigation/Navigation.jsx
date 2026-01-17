@@ -30,6 +30,56 @@ const Navigation = () => {
     };
   }, []);
 
+  // Data Structure for Navigation with Subcategories
+  const navItems = [
+    { label: "Home", path: "/" },
+    {
+      label: "Fashion",
+      path: "/product-listing/fashion",
+      subcategories: ["Men", "Women", "Kids", "Accessories"],
+    },
+    {
+      label: "Electronics",
+      path: "/product-listing/electronics",
+      subcategories: [
+        "Mobiles",
+        "Laptops",
+        "Audio & Headphones",
+        "Smart Watches",
+      ],
+    },
+    {
+      label: "Bags",
+      path: "/product-listing/bags",
+      subcategories: ["Backpacks", "Handbags", "Travel Bags", "Wallets"],
+    },
+    {
+      label: "Footwear",
+      path: "/product-listing/footwear",
+      subcategories: [
+        "Casual Shoes",
+        "Sports Shoes",
+        "Formal Shoes",
+        "Sandals & Slippers",
+      ],
+    },
+    {
+      label: "Groceries",
+      path: "/product-listing/groceries",
+      subcategories: ["Fruits & Vegetables", "Staples", "Snacks", "Beverages"],
+    },
+    {
+      label: "Beauty",
+      path: "/product-listing/beauty",
+      subcategories: ["Skincare", "Hair Care", "Grooming", "Fragrances"],
+    },
+    {
+      label: "Jewellery",
+      path: "/product-listing/jewellery",
+      subcategories: ["Necklaces", "Rings", "Earrings", "Bracelets"],
+    },
+  ];
+
   return (
     <>
       <nav className="py-2">
@@ -47,80 +97,42 @@ const Navigation = () => {
 
           <div className="col_2 w-[65%]">
             <ul className="flex items-center gap-5">
-              <li className="list-none">
-                <Link to="/" className="link transition text-[16px] font-[500]">
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Home
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/fashion"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Fashion
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link to="/product-listing/electronics" className="link transition text-[16px] font-[500]">
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Electronics
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/bags"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Bags
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/footwear"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Footware
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/groceries"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Groceries
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/beauty"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Beauty
-                  </Button>
-                </Link>
-              </li>
-              <li className="list-none">
-                <Link
-                  to="/product-listing/jewellery"
-                  className="link transition text-[16px] font-[500]"
-                >
-                  <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
-                    Jwellery
-                  </Button>
-                </Link>
-              </li>
+              {navItems.map((item, index) => (
+                <li key={index} className="list-none nav-item">
+                  <Link
+                    to={item.path}
+                    className="link transition text-[16px] font-[500]"
+                  >
+                    <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
+                      {item.label}
+                      {item.label !== "Home" && item.subcategories && (
+                         // Optional: Add a small arrow to indicate dropdown if desired, 
+                         // but standard requirement didn't strictly ask for icon, just behavior.
+                         // Keeping it clean as requested.
+                         <span className="ml-1 opacity-50 text-[10px]"><FaAngleDown/></span>
+                      )}
+                    </Button>
+                  </Link>
+
+                  {/* Dropdown Menu */}
+                  {item.subcategories && item.subcategories.length > 0 && (
+                    <div className="dropdown-menu">
+                      <ul className="p-0 m-0">
+                        {item.subcategories.map((sub, idx) => (
+                          <li key={idx} className="list-none">
+                            <Link
+                              to={`${item.path}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
+                              className="dropdown-item"
+                            >
+                              {sub}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
           <div className="col_3 w-[18%] text-[14px] font-[500] flex items-center gap-3 mb-0 mt-0">
