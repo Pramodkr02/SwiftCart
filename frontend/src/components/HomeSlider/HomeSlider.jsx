@@ -28,7 +28,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg"
+                src="https://cmsimages.shoppersstop.com/watch_fest_strip_web_51b2822003/watch_fest_strip_web_51b2822003.png"
                 alt=""
                 className="w-full"
               />
@@ -37,7 +37,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524893797_NewProject(13).jpg"
+                src="https://cmsimages.shoppersstop.com/EOSS_preview_sale_web_5860fecc3d/EOSS_preview_sale_web_5860fecc3d.png"
                 alt=""
                 className="w-full"
               />
@@ -46,7 +46,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://www.jiomart.com/images/cms/aw_rbslider/slides/1735537779_632x160__copy.jpg?im=Resize=(768,200)"
+                src="https://cmsimages.shoppersstop.com/PB_Homepage_web_9c44e9b6c2/PB_Homepage_web_9c44e9b6c2.png"
                 alt=""
                 className="w-full"
               />
@@ -55,7 +55,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg"
+                src="https://cmsimages.shoppersstop.com/2_EOSS_SS_KV_Dec_2025_Web_5b39d9f8d2/2_EOSS_SS_KV_Dec_2025_Web_5b39d9f8d2.jpg"
                 alt=""
                 className="w-full"
               />
@@ -64,7 +64,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg"
+                src="https://cmsimages.shoppersstop.com/Mens_wear001_web_3134bfca3b/Mens_wear001_web_3134bfca3b.png"
                 alt=""
                 className="w-full"
               />
@@ -73,7 +73,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg"
+                src="https://cmsimages.shoppersstop.com/Footwear_web_70d917c2f4/Footwear_web_70d917c2f4.png"
                 alt=""
                 className="w-full"
               />
@@ -82,7 +82,7 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg"
+                src="https://cmsimages.shoppersstop.com/Homestop_web_215ce8f42f/Homestop_web_215ce8f42f.png"
                 alt=""
                 className="w-full"
               />

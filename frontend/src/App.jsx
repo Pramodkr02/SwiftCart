@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./responsive.css";
+import "./responsive.css";
 import Header from "./components/Hedaer/Header";
+import Footer from "./components/Footer";
 import Home from "./Pages/Home/Home";
 import ProductListing from "./Pages/ProductListing/ProductListing";
 import ProductDetail from "./Pages/ProductDetail/ProductDetail";
@@ -115,6 +117,7 @@ function App() {
               element={<ProductDetail />}
             />
           </Routes>
+          <Footer />
         </MyContext.Provider>
       </BrowserRouter>
 

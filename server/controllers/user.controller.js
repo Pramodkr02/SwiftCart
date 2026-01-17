@@ -22,6 +22,7 @@ export async function registerUserController(req, res) {
     let user;
 
     const { name, email, password } = req.body;
+
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "provide email, name, password",
@@ -34,7 +35,7 @@ export async function registerUserController(req, res) {
 
     if (user) {
       return res.json({
-        message: "User already regiseterd with this email",
+        message: "User already registered with this email",
         error: true,
         success: false,
       });
