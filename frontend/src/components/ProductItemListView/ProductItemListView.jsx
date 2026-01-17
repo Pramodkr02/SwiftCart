@@ -15,16 +15,16 @@ function ProductItemListView() {
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group flex items-center">
       <div className="imgWrapper w-[25%]  overflow-hidden rounded-md relative">
-        <Link to="/">
+        <Link to="/product/:id">
           <div className="img h-[250px] overflow-hidden ">
             <img
-              src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-large_default/mug-today-is-a-good-day.jpg"
+              src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-0-202206061625.jpg?im=Resize=(600,750)"
               alt=""
               className="w-full"
             />
 
             <img
-              src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/71-home_default/mug-today-is-a-good-day.jpg"
+              src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-2-202206061625.jpg?im=Resize=(600,750)"
               alt=""
               className="w-full transition-all duration-700 absolute top-0 left-0 opacity-0 group-hover:opacity-100"
             />

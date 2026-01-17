@@ -8,6 +8,7 @@ import QuantityBox from "../../components/QuantityBox/QuantityBox";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa6";
 import { BiGitCompare } from "react-icons/bi";
+import { BsBasket3 } from "react-icons/bs";
 import TextField from "@mui/material/TextField";
 import ProductSlider from "../../components/ProductSlider/ProductSlider";
 
@@ -141,6 +142,10 @@ const ProductDetail = () => {
                 <AiOutlineShoppingCart className="text-[20px]" />
                 Add To Cart
               </Button>
+              <Button className="btn-org flex gap-2 !min-h-[41px]">
+                <BsBasket3 className="text-[18px] mb-1" />
+                Buy Now
+              </Button>
             </div>
             <div className="flex items-center gap-4 mt-4">
               <span>
@@ -214,7 +219,8 @@ const ProductDetail = () => {
               <p>
                 {" "}
                 It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.{" "}
+                by the readable content of a page when looking at its
+                layout.{" "}
               </p>
 
               <h4>MOney back guarantee</h4>
@@ -222,7 +228,8 @@ const ProductDetail = () => {
               <p>
                 {" "}
                 It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.{" "}
+                by the readable content of a page when looking at its
+                layout.{" "}
               </p>
 
               <h4>Online support</h4>
@@ -230,7 +237,8 @@ const ProductDetail = () => {
               <p>
                 {" "}
                 It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.{" "}
+                by the readable content of a page when looking at its
+                layout.{" "}
               </p>
             </div>
           )}

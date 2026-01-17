@@ -18,6 +18,7 @@ import { IoMdLogOut } from "react-icons/io";
 import { Button } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { ImFire } from "react-icons/im";
 import { fetchDataFromApi, postData } from "../../utils/api";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -46,7 +47,7 @@ const Header = () => {
 
     fetchDataFromApi(
       `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
-      { withCredentials: true }
+      { withCredentials: true },
     ).then((res) => {
       console.log(res);
       context.setIsLogin(false);
@@ -214,11 +215,9 @@ const Header = () => {
                     </>
                   )}
                   <li>
-                    <Tooltip title="Compare" placement="bottom">
+                    <Tooltip title="Trending" placement="bottom">
                       <IconButton aria-label="cart">
-                        <StyledBadge badgeContent={4} color="secondary">
-                          <FaCodeCompare />
-                        </StyledBadge>
+                        <ImFire className="" />
                       </IconButton>
                     </Tooltip>
                   </li>

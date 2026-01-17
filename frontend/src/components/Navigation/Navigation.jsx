@@ -56,7 +56,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/fashion"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
@@ -65,7 +65,7 @@ const Navigation = () => {
                 </Link>
               </li>
               <li className="list-none">
-                <Link to="/" className="link transition text-[16px] font-[500]">
+                <Link to="/product-listing/electronics" className="link transition text-[16px] font-[500]">
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
                     Electronics
                   </Button>
@@ -73,7 +73,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/bags"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
@@ -83,7 +83,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/footwear"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
@@ -93,7 +93,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/groceries"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
@@ -103,7 +103,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/beauty"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
@@ -113,7 +113,7 @@ const Navigation = () => {
               </li>
               <li className="list-none">
                 <Link
-                  to="/product-listing"
+                  to="/product-listing/jewellery"
                   className="link transition text-[16px] font-[500]"
                 >
                   <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">

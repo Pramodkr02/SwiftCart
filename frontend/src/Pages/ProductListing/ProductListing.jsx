@@ -11,7 +11,10 @@ import MenuItem from "@mui/material/MenuItem";
 import ProductItemListView from "../../components/ProductItemListView/ProductItemListView";
 import Pagination from "@mui/material/Pagination";
 
+import { useParams } from "react-router-dom";
+
 const ProductListing = () => {
+  const { id } = useParams(); // Get category ID from URL
   const [ItemView, setIsOpenView] = useState("grid");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -37,10 +40,10 @@ const ProductListing = () => {
             <Link
               underline="hover"
               color="inherit"
-              href="/material-ui/getting-started/installation/"
-              className="link transition"
+              href="#"
+              className="link transition capitalize"
             >
-              Fashion
+              {id ? id : "Fashion"}
             </Link>
           </Breadcrumbs>
         </div>

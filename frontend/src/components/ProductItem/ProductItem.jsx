@@ -14,7 +14,7 @@ function ProductItem() {
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group">
       <div className="imgWrapper w-[100%]  overflow-hidden rounded-md relative">
-        <Link to="/">
+        <Link to="product/:id">
           <div className="img h-[250px] overflow-hidden ">
             <img
               src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-0-202206061625.jpg?im=Resize=(600,750)"
@@ -35,7 +35,7 @@ function ProductItem() {
 
         <div className="actions absolute top-[-200px] right-[5px] flex z-50 items-center gap-2 flex-col w-[50px] transition-all duration-300 group-hover:top-[15px] opacity-0 group-hover:opacity-100">
           <Tooltip title="Wishlist" placement="left-start">
-            <Button className="!w-[35px] !h-[35px] !min-w-[35px]  !bg-white text-black !rounded-full hover:!bg-   hover:text-white group">
+            <Button className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group ">
               <FaRegHeart className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
             </Button>
           </Tooltip>

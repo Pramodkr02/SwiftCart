@@ -28,15 +28,6 @@ const HomeSlider = () => {
           <SwiperSlide>
             <div className="item rounded-[20px] overflow-hidden">
               <img
-                src="https://cmsimages.shoppersstop.com/watch_fest_strip_web_51b2822003/watch_fest_strip_web_51b2822003.png"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item rounded-[20px] overflow-hidden">
-              <img
                 src="https://cmsimages.shoppersstop.com/EOSS_preview_sale_web_5860fecc3d/EOSS_preview_sale_web_5860fecc3d.png"
                 alt=""
                 className="w-full"

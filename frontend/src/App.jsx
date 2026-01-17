@@ -94,7 +94,7 @@ function App() {
           <Routes>
             <Route path={"/"} exact={true} element={<Home />} />
             <Route
-              path={"/product-listing"}
+              path={"/product-listing/:id?"}
               exact={true}
               element={<ProductListing />}
             />

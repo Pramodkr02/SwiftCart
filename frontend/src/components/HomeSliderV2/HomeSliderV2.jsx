@@ -23,13 +23,13 @@ const HomeSliderV2 = () => {
           className="homeSliderV2"
         >
           <SwiperSlide>
-            <div className="item w-full rounded-md overflow-hidden relative">
+            <div className="item !w-full rounded-md overflow-hidden relative">
               <img
-                src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/modules/cz_imageslider/views/img/sample-2.jpg"
+                src="https://cmsimages.shoppersstop.com/women_indianwear_static_web_456fed5bf1/women_indianwear_static_web_456fed5bf1.png"
                 className="w-full"
               />
 
-              <div className="info absolute top-0 right-[-100%] w-[50%] z-50 p-[25px] h-[100%] flex items-center justify-center flex-col transition-all duration-700 opacity-0">
+              {/* <div className="info absolute top-0 right-[-100%] w-[50%] z-50 p-[25px] h-[100%] flex items-center justify-center flex-col transition-all duration-700 opacity-0">
                 <h4 className="text-[20px] font-[500] text-left w-full mb-5 relative opacity-0 right-[-100%]">
                   Big Savings Days Sale
                 </h4>
@@ -45,13 +45,13 @@ const HomeSliderV2 = () => {
                 <div className="w-full shopNow relative opacity-0 bottom-[-100%]">
                   <Button className="btn-org flex ">SHOP NOW</Button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="item w-full rounded-md overflow-hidden relative">
               <img
-                src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/modules/cz_imageslider/views/img/sample-1.jpg"
+                src="https://cmsimages.shoppersstop.com/aureliaglobaldesi_web_e0058d8af2/aureliaglobaldesi_web_e0058d8af2.png"
                 className="w-full"
               />
 
