@@ -22,15 +22,15 @@ const Home = () => {
 
   useEffect(() => {
     fetchDataFromApi("/api/homeSlider/public").then((res) => {
-         if(res?.success) {
-             setHomeSlides(res.data);
-         }
+      if (res?.success) {
+        setHomeSlides(res.data);
+      }
     });
 
     fetchDataFromApi("/api/product").then((res) => {
-        if(res && res.products) {
-            setProducts(res.products);
-        }
+      if (res && res.products) {
+        setProducts(res.products);
+      }
     });
   }, []);
 
@@ -41,7 +41,7 @@ const Home = () => {
   return (
     <>
       <HomeSlider data={homeSlides} />
-      <HomeCatSlider />
+      {/* <HomeCatSlider /> */}
 
       <section className="py-8 bg-white">
         <div className="container">
@@ -107,7 +107,7 @@ const Home = () => {
             <p className="font-bold text-[30px]">- Only $200</p>
           </div>
 
-          <AdsBannerSlider items={4} />
+          <AdsBannerSlider items={3} />
         </div>
       </section>
 
@@ -123,7 +123,10 @@ const Home = () => {
       <section className="py-5 pt-0 bg-white">
         <div className="container">
           <h3 className="text-[20px] font-[600]">Feature Products</h3>
-          <ProductSlider items={6} data={products.filter(p => p.isFeatured)} />
+          <ProductSlider
+            items={6}
+            data={products.filter((p) => p.isFeatured)}
+          />
 
           <AdsBannerSlider items={3} />
         </div>

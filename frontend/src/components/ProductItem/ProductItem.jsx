@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./ProductItem.css";
 import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { BiGitCompare } from "react-icons/bi";
+import { IoMdHeart } from "react-icons/io";
 
 import { Link } from "react-router-dom";
 
 import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import { MyContext } from "../../MyContext";
 
 function ProductItem(props) {
   const item = props?.item;
-  
+  const context = useContext(MyContext);
+  const [isAddedToMyList, setIsAddedToMyList] = useState(false);
+
+  useEffect(() => {
+    if(context.wishList?.length > 0 && item) {
+        const isAdded = context.wishList.some(w => w.productId === item._id);
+        setIsAddedToMyList(isAdded);
+    } else {
+        setIsAddedToMyList(false);
+    }
+  }, [context.wishList, item]);
+
+
+  const handleWishlistClick = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      context.addToMyList(item);
+  }
+
+  const handleLinkClick = (e) => {
+    // Ensure we don't prevent default unless necessary, but basically allow navigation
+  }
+
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group">
-      <div className="imgWrapper w-[100%]  overflow-hidden rounded-md relative">
-        <Link to={`/product/${item?._id}`}>
+        <Link to={`/product/${item?._id}`} className="imgWrapper w-[100%] block overflow-hidden rounded-md relative cursor-pointer" onClick={handleLinkClick}>
           <div className="img h-[250px] overflow-hidden ">
-            <img
-              src={item?.images?.[0]}
-              alt={item?.name}
-              className="w-full"
-            />
+            <img src={item?.images?.[0]} alt={item?.name} className="w-full" />
 
             <img
               src={item?.images?.[1] || item?.images?.[0]}
@@ -30,39 +49,68 @@ function ProductItem(props) {
               className="w-full transition-all duration-700 absolute top-0 left-0 opacity-0 group-hover:opacity-100"
             />
           </div>
-        </Link>
+
         {item?.discount && (
-             <span className="discount flex items-center absolute top-[10px] left-[10px] z-50 rounded-md bg-primary text-white p-1 text-[12px] font-[500]">
-              -{item?.discount}%
-            </span>
+          <span className="discount flex items-center absolute top-[10px] left-[10px] z-50 rounded-md bg-primary text-white p-1 text-[12px] font-[500]">
+            -{item?.discount}%
+          </span>
         )}
 
         <div className="actions absolute top-[-200px] right-[5px] flex z-50 items-center gap-2 flex-col w-[50px] transition-all duration-300 group-hover:top-[15px] opacity-0 group-hover:opacity-100">
           <Tooltip title="Wishlist" placement="left-start">
-            <Button className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group ">
-              <FaRegHeart className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
+            <Button
+              className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group "
+              onClick={handleWishlistClick}
+              onMouseDown={(e) => e.stopPropagation()} 
+            >
+              {isAddedToMyList ? (
+                <IoMdHeart className="text-[20px] text-primary" />
+              ) : (
+                <FaRegHeart className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
+              )}
             </Button>
           </Tooltip>
           <Tooltip title="View" placement="left-start">
-            <Button className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group ">
+            <Button 
+                className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group "
+                onClick={(e) => {
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    // Add view logic if needed
+                }}
+            >
               <MdOutlineZoomOutMap className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
             </Button>
           </Tooltip>
           <Tooltip title="Comapre" placement="left-start">
-            <Button className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group ">
+            <Button 
+                className="!w-[35px] !h-[35px] !min-w-[35px] !bg-white text-black !rounded-full hover:!bg-primary hover:text-white group "
+                onClick={(e) => {
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    // Add compare logic if needed
+                }}
+            >
               <BiGitCompare className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
             </Button>
           </Tooltip>
         </div>
-      </div>
+      </Link>
+      
       <div className="info p-3 py-5">
         <h6 className="text-[13px] !font-[400]">
-          <Link className="link transition-all capitalize" to={`/product/${item?._id}`}>
+          <Link
+            className="link transition-all capitalize"
+            to={`/product/${item?._id}`}
+          >
             {item?.brand}
           </Link>
         </h6>
         <h3 className="text-[14px] title mt-1 font-[500] text-[rgba(0,0,0,0.9)] mb-1">
-          <Link className="link transition-all" to={`/product/${item?._id}`}>
+          <Link
+            className="link transition-all truncate"
+            to={`/product/${item?._id}`}
+          >
             {item?.name?.substr(0, 30) + "..."}
           </Link>
         </h3>

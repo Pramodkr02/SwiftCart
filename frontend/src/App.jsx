@@ -19,7 +19,7 @@ import CheckoutPage from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount";
 import MyList from "./Pages/MyList/MyList";
 import Orders from "./Pages/Orders";
-import { fetchDataFromApi } from "./utils/api";
+import { deleteData, fetchDataFromApi, postData } from "./utils/api";
 import { MyContext } from "./MyContext";
 
 
@@ -28,6 +28,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [wishList, setWishList] = useState([]);
+
   const toggleCartPanel = (newOpen) => () => {
     setOpenCartPanel(newOpen);
   };
@@ -69,10 +71,58 @@ function App() {
           }
         }
       });
+      fetchWishList();
     } else {
       setIsLogin(false);
     }
   }, [isLogin]);
+
+  const fetchWishList = () => {
+    fetchDataFromApi("/api/my-list").then((res) => {
+        if(res && res.status !== 500) {
+            setWishList(res.data);
+        }
+    });
+  };
+
+  const addToMyList = (product) => {
+    if (isLogin === false) {
+        openAlertBox("error", "Please login to add to wishlist");
+        return;
+    }
+
+    const data = {
+      productTitle: product?.name,
+      image: product?.images[0],
+      rating: product?.rating,
+      price: product?.price,
+      oldPrice: product?.oldPrice,
+      brand: product?.brand,
+      discount: product?.discount,
+      productId: product?._id,
+      userId: userData?._id
+    };
+
+    postData(`/api/my-list/add`, data).then((res) => {
+      if (res.success === true) {
+        openAlertBox("success", "Product added to wishlist");
+        fetchWishList();
+      } else {
+        openAlertBox("error", res.message);
+      }
+    });
+  };
+
+  const removeFromMyList = (id) => {
+      deleteData(`/api/my-list/${id}`).then((res) => {
+        if (res.data.success === true) {
+          openAlertBox("success", "Product removed from wishlist");
+          fetchWishList();
+        } else {
+          openAlertBox("error", res.data.message);
+        }
+      });
+  }
 
   const values = {
     setOpenCartPanel,
@@ -84,6 +134,10 @@ function App() {
     userData,
     windowWidth,
     setWindowWidth,
+    wishList,
+    setWishList,
+    addToMyList,
+    removeFromMyList
   };
 
   return (

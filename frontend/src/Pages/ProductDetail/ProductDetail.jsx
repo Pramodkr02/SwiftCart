@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useParams } from "react-router-dom";
 import ProductZoom from "../../components/ProductZoom/ProductZoom";
@@ -12,6 +12,8 @@ import { BsBasket3 } from "react-icons/bs";
 import TextField from "@mui/material/TextField";
 import ProductSlider from "../../components/ProductSlider/ProductSlider";
 import { fetchDataFromApi } from "../../utils/api";
+import { MyContext } from "../../MyContext";
+import { IoMdHeart } from "react-icons/io";
 
 const ProductDetail = () => {
   const [productActionIndex, setProductActionIndex] = useState(null);
@@ -19,6 +21,8 @@ const ProductDetail = () => {
   const [productDetails, setProductDetails] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { id } = useParams();
+  const context = useContext(MyContext);
+  const [isAddedToMyList, setIsAddedToMyList] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,16 +30,9 @@ const ProductDetail = () => {
         fetchDataFromApi(`/api/product/${id}`).then((res) => {
             if(res) {
                  setProductDetails(res);
-                 // Fetch related products if catId exists (backend might differ, assuming accessing via product model structure)
-                 // Note: 'res' is the product object directly or inside data? 
-                 // Backend: getProductById returns the product document directly or {success, data}?
-                 // Checking backend: res.status(200).send(product); -> It sends the product object directly.
-                 
                  if(res.category || res.catId) {
-                     // Assuming we can filter by catId
                      fetchDataFromApi(`/api/product?catId=${res.category?._id || res.category}`).then(res2 => {
                          if(res2 && res2.products) {
-                             // Filter out current product
                             const related = res2.products.filter(item => item._id !== id);
                             setRelatedProducts(related);
                          }
@@ -46,6 +43,18 @@ const ProductDetail = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if(context.wishList?.length > 0 && productDetails) {
+        const isAdded = context.wishList.some(w => w.productId === productDetails._id);
+        setIsAddedToMyList(isAdded);
+    } else {
+        setIsAddedToMyList(false);
+    }
+  }, [context.wishList, productDetails]);
+
+  const addToMyList = (id) => {
+      context.addToMyList(productDetails);
+  };
 
   return (
     <>
@@ -120,7 +129,6 @@ const ProductDetail = () => {
               {productDetails?.description?.substr(0, 300)}
             </p>
 
-            {/* Size Selector - Dummy for now as DB doesn't have sizes yet strictly defined */}
             <div className="flex items-center gap-3">
               <span className="text-[16px]">Size: </span>
               <div className="flex items-center gap-1 actions">
@@ -157,8 +165,12 @@ const ProductDetail = () => {
             </div>
             <div className="flex items-center gap-4 mt-4">
               <span>
-                <Link className="flex link items-center gap-2 text-[15px] font-[500] cursor-pointer capitalize">
-                  <FaRegHeart className="text-[18px]" />
+                <Link className="flex link items-center gap-2 text-[15px] font-[500] cursor-pointer capitalize" onClick={() => addToMyList(id)}>
+                  {isAddedToMyList ? (
+                      <IoMdHeart className="text-[18px] text-primary" />
+                  ) : (
+                      <FaRegHeart className="text-[18px]" />
+                  )}
                   Add to wishlist
                 </Link>
               </span>

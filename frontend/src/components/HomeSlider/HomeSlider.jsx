@@ -13,7 +13,7 @@ const HomeSlider = (props) => {
         <Swiper
           slidesPerView={1}
           spaceBetween={30}
-          loop={true}
+          loop={props.data?.length > 1}
           pagination={{
             clickable: true,
           }}

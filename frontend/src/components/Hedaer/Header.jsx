@@ -223,11 +223,16 @@ const Header = () => {
                   </li>
                   <li>
                     <Tooltip title="WishList" placement="bottom">
-                      <IconButton aria-label="cart">
-                        <StyledBadge badgeContent={4} color="secondary">
-                          <FaRegHeart />
-                        </StyledBadge>
-                      </IconButton>
+                      <Link to="/my-list">
+                        <IconButton aria-label="cart">
+                          <StyledBadge
+                            badgeContent={context.wishList?.length}
+                            color="secondary"
+                          >
+                            <FaRegHeart />
+                          </StyledBadge>
+                        </IconButton>
+                      </Link>
                     </Tooltip>
                   </li>
                 </>
