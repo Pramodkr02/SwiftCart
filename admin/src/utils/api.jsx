@@ -87,7 +87,7 @@ export const postDataImage = async (url, formData) => {
   const params = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      "Content-Type": "multipart/form-data",
+      // "Content-Type": "multipart/form-data", // Let the browser set this with the boundary
     },
   };
 

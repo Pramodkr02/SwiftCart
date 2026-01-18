@@ -28,10 +28,11 @@ const ProductCart = () => {
     <div>
       <Dialog
         fullScreen
-        open={context.isOpenFullScreenPanel.open}
+        open={context.isOpenFullScreenPanel?.open === true}
         onClose={() =>
           context.setIsOpenFullScreenPanel({
             open: false,
+            model: "" 
           })
         }
         slots={{

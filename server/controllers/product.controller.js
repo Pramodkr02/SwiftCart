@@ -14,6 +14,15 @@ cloudinary.config({
 export async function upoadImageController(req, res) {
   try {
     const images = req.files;
+    
+    if (!images || images.length === 0) {
+        return res.status(400).json({
+            message: "No image files provided",
+            error: true,
+            success: false
+        });
+    }
+
     let imageArr = [];
 
     const options = {
@@ -22,14 +31,33 @@ export async function upoadImageController(req, res) {
       overwrite: false,
     };
 
-    for (let i = 0; i < images?.length; i++) {
-      const result = await cloudinary.uploader.upload(images[i].path, options);
-      imageArr.push(result.secure_url);
+    for (let i = 0; i < images.length; i++) {
+      try {
+          const result = await cloudinary.uploader.upload(images[i].path, options);
+          imageArr.push(result.secure_url);
+      } catch (uploadError) {
+          console.error("Cloudinary upload failed for file:", images[i].originalname, uploadError);
+          // Continue with other images or throw? 
+          // If we fail one, likely fine to continue or fail. 
+          // For now let's just log and continue, but careful about partial success.
+      }
       
       // Delete file from local uploads/ folder after upload
-      if (fs.existsSync(`uploads/${images[i].filename}`)) {
-          fs.unlinkSync(`uploads/${images[i].filename}`);
+      try {
+         if (fs.existsSync(`uploads/${images[i].filename}`)) {
+             fs.unlinkSync(`uploads/${images[i].filename}`);
+         }
+      } catch (fsError) {
+          console.error("Failed to delete local file:", images[i].filename, fsError);
       }
+    }
+    
+    if (imageArr.length === 0) {
+        return res.status(500).json({
+            message: "Failed to upload any images to Cloudinary",
+            error: true,
+            success: false
+        });
     }
 
     return res.status(200).json({
@@ -39,6 +67,7 @@ export async function upoadImageController(req, res) {
       error: false
     });
   } catch (error) {
+    console.error("Image Upload Controller Error:", error);
     return res.status(500).json({
       message: error.message || error,
       error: true,
@@ -58,9 +87,9 @@ export async function createProduct(req, res) {
     } = req.body;
 
     // Basic Validation
-    if (!name || !price || !catId || !subCatId) {
+    if (!name || !price || !catId || !subCatId || !images || images.length === 0) {
         return res.status(400).json({
-             message: "Name, Price, Category, and SubCategory are required.",
+             message: "Name, Price, Category, SubCategory, and Images are required.",
              error: true,
              success: false
         });

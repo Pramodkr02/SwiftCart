@@ -8,11 +8,12 @@ import { MdOutlineRocketLaunch } from "react-icons/md";
 import CategoryPanel from "../CategoryPanel/CategoryPanel";
 import { MyContext } from "../../MyContext";
 import MobileNav from "./MobileNav";
+import { fetchDataFromApi } from "../../utils/api";
 
 const Navigation = () => {
   const context = useContext(MyContext);
-
   const [isOpneCatPanel, setIsOpencatPanel] = useState(false);
+  const [navItems, setNavItems] = useState([]);
 
   const opneCategoryPanel = () => {
     setIsOpencatPanel(true);
@@ -24,61 +25,26 @@ const Navigation = () => {
     };
 
     window.addEventListener("resize", handleResize);
+    
+    // Fetch Categories
+    fetchDataFromApi("/api/category").then((res) => {
+        if(res && res.data) {
+            const dynamicItems = res.data.map((cat) => ({
+                label: cat.name,
+                path: `/product-listing/${cat._id}`,
+                subcategories: cat.children || []
+            }));
+            
+            // Ensure Home is first
+            setNavItems([{ label: "Home", path: "/" }, ...dynamicItems]);
+        }
+    });
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Data Structure for Navigation with Subcategories
-  const navItems = [
-    { label: "Home", path: "/" },
-    {
-      label: "Fashion",
-      path: "/product-listing/fashion",
-      subcategories: ["Men", "Women", "Kids", "Accessories"],
-    },
-    {
-      label: "Electronics",
-      path: "/product-listing/electronics",
-      subcategories: [
-        "Mobiles",
-        "Laptops",
-        "Audio & Headphones",
-        "Smart Watches",
-      ],
-    },
-    {
-      label: "Bags",
-      path: "/product-listing/bags",
-      subcategories: ["Backpacks", "Handbags", "Travel Bags", "Wallets"],
-    },
-    {
-      label: "Footwear",
-      path: "/product-listing/footwear",
-      subcategories: [
-        "Casual Shoes",
-        "Sports Shoes",
-        "Formal Shoes",
-        "Sandals & Slippers",
-      ],
-    },
-    {
-      label: "Groceries",
-      path: "/product-listing/groceries",
-      subcategories: ["Fruits & Vegetables", "Staples", "Snacks", "Beverages"],
-    },
-    {
-      label: "Beauty",
-      path: "/product-listing/beauty",
-      subcategories: ["Skincare", "Hair Care", "Grooming", "Fragrances"],
-    },
-    {
-      label: "Jewellery",
-      path: "/product-listing/jewellery",
-      subcategories: ["Necklaces", "Rings", "Earrings", "Bracelets"],
-    },
-  ];
 
   return (
     <>
@@ -105,10 +71,7 @@ const Navigation = () => {
                   >
                     <Button className="link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]">
                       {item.label}
-                      {item.label !== "Home" && item.subcategories && (
-                         // Optional: Add a small arrow to indicate dropdown if desired, 
-                         // but standard requirement didn't strictly ask for icon, just behavior.
-                         // Keeping it clean as requested.
+                      {item.label !== "Home" && item.subcategories && item.subcategories.length > 0 && (
                          <span className="ml-1 opacity-50 text-[10px]"><FaAngleDown/></span>
                       )}
                     </Button>
@@ -121,10 +84,10 @@ const Navigation = () => {
                         {item.subcategories.map((sub, idx) => (
                           <li key={idx} className="list-none">
                             <Link
-                              to={`${item.path}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
+                              to={`/product-listing/${sub._id}`}
                               className="dropdown-item"
                             >
-                              {sub}
+                              {sub.name}
                             </Link>
                           </li>
                         ))}
