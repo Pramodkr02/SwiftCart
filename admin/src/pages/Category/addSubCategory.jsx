@@ -1,93 +1,105 @@
-import React, { useState } from "react";
-import UploadBox from "../../components/UploadBox";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { IoMdClose } from "react-icons/io";
+import React, { useContext, useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Button, MenuItem, Select } from "@mui/material";
+import { postData, fetchDataFromApi } from "../../utils/api";
+import { MyContext } from "../../App";
 
 const AddSubCategory = () => {
-  const [categoryFilterVal, setCategoryFilterVal] = useState("");
+  const [parentId, setParentId] = useState("");
+  const [name, setName] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const context = useContext(MyContext);
 
-  const handleChangeCatFilter = (event) => {
-    setCategoryFilterVal(event.target.value);
+  useEffect(() => {
+     fetchDataFromApi("/api/category").then((res) => {
+         if(res?.success) {
+             setCategories(res.data);
+         }
+     })
+  }, []);
+
+  const handleChangeCategory = (event) => {
+    setParentId(event.target.value);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !parentId) {
+        context.openAlertBox("error", "Please fill all fields");
+        return;
+    }
+
+    setIsLoading(true);
+    // Subcategories are just categories with a parentId
+    const formData = {
+        name: name,
+        parentId: parentId
+    };
+
+    const res = await postData("/api/category/create", formData);
+
+    if (res?.success) {
+      context.openAlertBox("success", "Subcategory created successfully");
+      context.setIsOpenFullScreenPanel({ open: false });
+    } else {
+      context.openAlertBox("error", res?.message || "Error creating subcategory");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <section className="p-5 bg-gray-50">
-      <form action="" className="form p-8 py-3 ">
+      <form onSubmit={handleSubmit} className="form p-8 py-3 ">
         <div className="scroll max-h-[75vh] overflow-y-scroll pr-4 pt-4">
           <div className="flex gap-4 mb-6">
-            <div className="col w-[20%]">
-              <h4 className="font-[600] uppercase text-[13px] mb-2">
-                Category by
+            <div className="col w-full">
+              <h4 className="font-[600] text-[14px] mb-2">
+                Select Parent Category
               </h4>
               <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={categoryFilterVal}
-                onChange={handleChangeCatFilter}
-                label="Category"
-                className="w-full"
+                value={parentId}
+                onChange={handleChangeCategory}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}
+                className="w-full h-[40px] bg-white"
                 size="small"
               >
                 <MenuItem value="">
-                  <em>None</em>
+                  <em className="text-gray-400">Select Category</em>
                 </MenuItem>
-                <MenuItem value={10}>Man</MenuItem>
-                <MenuItem value={20}>Women</MenuItem>
-                <MenuItem value={30}>Kid's</MenuItem>
-              </Select>
-            </div>
-
-            <div className="col w-[20%]">
-              <h4 className="font-[600] uppercase text-[13px] mb-2">
-                Category by
-              </h4>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={categoryFilterVal}
-                onChange={handleChangeCatFilter}
-                label="Category"
-                className="w-full"
-                size="small"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Man</MenuItem>
-                <MenuItem value={20}>Women</MenuItem>
-                <MenuItem value={30}>Kid's</MenuItem>
+                {categories.map(cat => (
+                     <MenuItem key={cat._id} value={cat._id}>{cat.name}</MenuItem>
+                ))}
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-2 mb-2 mt-2">
-            <div className="uploadBoxWrraper relative">
-              <span className="absolute w-[20px] h-[20px] rounded-full overflow-hidden bg-red-700 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer">
-                <IoMdClose className="text-white text-[17px]" />
-              </span>
-              <div className="uploadBox rounded-md  overflow-hidden border border-[rgba(0,0,0,0.2)] h-[170px] w-[100%] bg-gray-100 cursor-pointer hover:bg-gray-200 flex  justify-center items-center relative">
-                <LazyLoadImage
-                  className="w-full h-full object-cover"
-                  effect="blur"
-                  wrapperProps={{
-                    style: { transitionDelay: "1s" },
-                  }}
-                  alt={"image"}
-                  src="https://rukminim2.flixcart.com/image/832/832/xif0q/trouser/w/z/7/28-esr2-rishi-traders-original-imahex6rke5rrvxc.jpeg?q=70&crop=false"
-                />
-              </div>
-            </div>
-
-            <UploadBox multiple={true} />
-            <br />
+          
+           <div className="col mb-4">
+            <h3 className="text-[14px] font-[500] mb-2">Subcategory Name</h3>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full h-[40px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-sm p-3 text-sm"
+            />
           </div>
+
         </div>
 
         <br />
-        <br />
-        <Button type="submit" className="btn-blue btn-lg flex gap-2">
-          <FaCloudUploadAlt className="text-[25px] text-white" />
-          <span>Publish and View</span>
+        <Button 
+            type="submit" 
+            className="btn-blue btn-lg flex gap-2 !bg-blue-600 !text-white"
+            disabled={isLoading}
+        >
+             {isLoading ? "Publishing..." : (
+                <>
+                <FaCloudUploadAlt className="text-[25px] text-white" />
+                <span>Publish and View</span>
+                </>
+            )}
         </Button>
       </form>
     </section>

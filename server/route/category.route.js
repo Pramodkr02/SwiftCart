@@ -6,19 +6,25 @@ import {
   getCategories,
   getCategoriesCountController,
   getSubCategoriesCountController,
-  upoadImageController,
+  // upoadImageController, // Not needed separately if handled in create/update
+  deleteCategoryController,
+  updateCategoryController,
+  getCategoryById
 } from "../controllers/category.controller.js";
 
 const categoryRouter = Router();
-categoryRouter.post(
-  "/uploadImages",
-  auth,
-  upload.array("images"),
-  upoadImageController
-);
-categoryRouter.post("/create", auth, createCategoryController);
-categoryRouter.get("/", auth, getCategories);
-categoryRouter.get("/get/count", auth, getCategoriesCountController);
-categoryRouter.get("/get/count/subCat", auth, getSubCategoriesCountController);
+
+// Create with optional images
+categoryRouter.post("/create", auth, upload.array("images"), createCategoryController);
+
+// Read
+categoryRouter.get("/", getCategories); // Make public potentially, or keep auth? User said "Frontend Fetch" -> Public
+categoryRouter.get("/:id", getCategoryById);
+categoryRouter.get("/get/count", getCategoriesCountController);
+categoryRouter.get("/get/count/subCat", getSubCategoriesCountController);
+
+// Update/Delete
+categoryRouter.delete("/:id", auth, deleteCategoryController);
+categoryRouter.put("/:id", auth, upload.array("images"), updateCategoryController);
 
 export default categoryRouter;

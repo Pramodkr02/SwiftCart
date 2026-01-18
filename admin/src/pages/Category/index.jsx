@@ -1,51 +1,50 @@
-import { Button } from "@mui/material";
-import React, { useContext, useState } from "react";
-
+import { Button, Chip } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import { GoTrash } from "react-icons/go";
-import ProgressBar from "../../components/ProgressBar";
 import { BiEditAlt } from "react-icons/bi";
-import { FaRegEye } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";
-import Pagination from "@mui/material/Pagination";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { BiExport } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
-import SearchBox from "../../components/SearchBox";
 import { MyContext } from "../../App";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+import { deleteData, fetchDataFromApi } from "../../utils/api";
 
 const CategoryList = () => {
-  const [categoryFilterVal, setCategoryFilterVal] = useState("");
-  const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
-
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const context = useContext(MyContext);
 
-  const isShowOrderProduct = (index) => {
-    if (isOpenOrderProduct === index) {
-      setIsOpenOrderProduct(null);
-    } else {
-      setIsOpenOrderProduct(index);
+  useEffect(() => {
+    fetchCategories();
+  }, [context.isOpenFullScreenPanel]);
+
+  const fetchCategories = async () => {
+    setIsLoading(true);
+    const res = await fetchDataFromApi("/api/category");
+    if (res?.success) {
+      setCategories(res.data);
     }
+    setIsLoading(false);
   };
 
-  const handleChangeCatFilter = (event) => {
-    setCategoryFilterVal(event.target.value);
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      const res = await deleteData(`/api/category/${id}`);
+      if (res?.success) {
+        context.openAlertBox("success", "Category deleted successfully");
+        fetchCategories();
+      } else {
+        context.openAlertBox("error", res?.message || "Error deleting category");
+      }
+    }
   };
 
   return (
     <>
       <div className="card my-4 shadow-md bg-white sm:rounded-lg">
         <div className="flex items-center justify-between px-5 py-5">
-          <h2 className="text-[18px] font-[600]">Cateroy List</h2>
+          <h2 className="text-[18px] font-[600]">Category List</h2>
           <div className="col w-[50%] flex items-center gap-3 justify-end">
-            <Button className="btn !bg-green-500 !text-white btn-sm !flex !items-center !gap-2">
-              <BiExport className="text-[20px] font-[500]" />
-              <span>Export</span>
-            </Button>
             <Button
               className="btn !bg-blue-500 !text-white btn-sm !flex !items-center !gap-2"
               onClick={() =>
@@ -61,47 +60,18 @@ const CategoryList = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between w-full pl-5 pr-5">
-          <div className="col w-[20%]">
-            <h4 className="font-[600] uppercase text-[13px] mb-2">
-              Category by
-            </h4>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={categoryFilterVal}
-              onChange={handleChangeCatFilter}
-              label="Category"
-              className="w-full"
-              size="small"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Man</MenuItem>
-              <MenuItem value={20}>Women</MenuItem>
-              <MenuItem value={30}>Kid's</MenuItem>
-            </Select>
-          </div>
-
-          <div className="col w-[20%] ml-auto">
-            <SearchBox />
-          </div>
-        </div>
         <div className="relative overflow-x-auto sm:rounded-lg pb-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs !text-black uppercase bg-gray-50 dark:text-gray-600">
               <tr>
-                <td scope="col" className="pl-6 py-3 w-[150px]">
-                  <div className="w-[60px]">
-                    <Checkbox {...label} size="small" />
-                  </div>
-                </td>
-                <th scope="col" className="px-0 mr-0 mx-0 pr-0 py-3 w-[500px]">
-                  Image
+                <th scope="col" className="pl-6 py-3 w-[150px]">
+                   Image
                 </th>
-                <th scope="col" className="px-0 mr-0 mx-0 pr-0 py-3 w-[500px]">
-                  category name
+                <th scope="col" className="px-6 py-3">
+                  Category Name
+                </th>
+                 <th scope="col" className="px-6 py-3">
+                  Subcategories
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Action
@@ -109,59 +79,55 @@ const CategoryList = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
-                <td
-                  scope="row"
-                  className="pl-6 py-4 font-medium text-gray-700 whitespace-nowrap"
-                >
-                  <div className="w-[60px]">
-                    <Checkbox {...label} size="small" />
-                  </div>
-                </td>
-                <td className="px-0 mr-0 py-4 pr-0 w-[300px]">
-                  <div className="flex items-center gap-4 w-[300px]">
-                    <div className="img w-[100px] h-[100px] rounded-md overflow-hidden group">
-                      <Link to="/product/2547">
-                        <img
-                          src="https://www.jiomart.com/images/product/original/rvpxwbpx4f/try-this-mens-round-neck-regular-fit-half-sleeves-tshirt-product-images-rvpxwbpx4f-0-202303091003.jpg?im=Resize=(600,750)"
-                          alt=""
-                          className="w-full group-hover:scale-105 transition-all"
-                        />
-                      </Link>
-                    </div>
-                  </div>
-                </td>
+              {categories?.length > 0 &&
+                categories.map((cat, index) => (
+                  <tr
+                    key={cat._id}
+                    className="odd:bg-white odd:dark:bg-gray-100 even:bg-gray-50 border-b dark:border-gray-800 border-gray-700"
+                  >
+                    <td className="pl-6 py-4">
+                      <div className="img w-[50px] h-[50px] rounded-md overflow-hidden border">
+                         {cat.images && cat.images.length > 0 ? (
+                            <img src={cat.images[0]} alt={cat.name} className="w-full h-full object-cover"/>
+                         ) : (
+                             <span className="text-xs flex items-center justify-center h-full">No Img</span>
+                         )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 font-medium text-gray-900">
+                       {cat.name}
+                    </td>
+                     <td className="px-6 py-4">
+                        <div className="flex flex-wrap gap-1">
+                        {cat.children && cat.children.length > 0 ? (
+                           cat.children.map((sub, idx) => (
+                               <Chip key={sub._id} label={sub.name} size="small" variant="outlined" />
+                           ))
+                        ) : (
+                            <span className="text-gray-400 text-xs">-</span>
+                        )}
+                        </div>
+                    </td>
 
-                <td scope="col" className="py-3 w-[150px]">
-                  <div className="w-[60px]">Fashion</div>
-                </td>
-
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-2">
-                    <Tooltip title="Edit Product" placement="top">
-                      <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
-                        <BiEditAlt className="text-[rgba(0,0,0,0.7)] text-[20px]" />
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="View Product" placement="top">
-                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.2)]">
-                        <FaRegEye className="text-[rgba(0,0,0,0.7)] text-[20px]" />
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Remove Product" placement="top">
-                      <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]">
-                        <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
-                      </Button>
-                    </Tooltip>
-                  </div>
-                </td>
-              </tr>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <Tooltip title="Delete Category" placement="top">
+                          <Button className="!w-[35px] !h-[35px] !rounded-full !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)]" onClick={() => handleDelete(cat._id)}>
+                            <GoTrash className="text-[rgba(0,0,0,0.7)] text-[20px]" />
+                          </Button>
+                        </Tooltip>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
-        </div>
-
-        <div className="flex items-center justify-end pb-4 bt-4 px-4">
-          <Pagination count={10} color="primary" />
+            {categories?.length === 0 && !isLoading && (
+              <div className="p-5 text-center text-gray-500">No categories found.</div>
+          )}
+           {isLoading && (
+              <div className="p-5 text-center text-gray-500">Loading...</div>
+          )}
         </div>
       </div>
     </>
