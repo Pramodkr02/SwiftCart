@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import HomeSlider from "../../components/HomeSlider/HomeSlider";
 import HomeCatSlider from "../../components/HomeCatSlider/HomeCatSlider";
 import { MdLocalShipping } from "react-icons/md";
@@ -13,9 +13,19 @@ import { Navigation } from "swiper/modules";
 import BlogItem from "../../components/BlogItem/BlogItem";
 import HomeSliderV2 from "../../components/HomeSliderV2/HomeSliderV2";
 import BannerBoxV2 from "../../components/BannerBoxV2/BannerBoxV2";
+import { fetchDataFromApi } from "../../utils/api";
 
 const Home = () => {
   const [value, setValue] = React.useState(0);
+  const [homeSlides, setHomeSlides] = useState([]);
+
+  useEffect(() => {
+    fetchDataFromApi("/api/homeSlider/public").then((res) => {
+         if(res?.success) {
+             setHomeSlides(res.data);
+         }
+    });
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -23,7 +33,7 @@ const Home = () => {
 
   return (
     <>
-      <HomeSlider />
+      <HomeSlider data={homeSlides} />
       <HomeCatSlider />
 
       <section className="py-8 bg-white">

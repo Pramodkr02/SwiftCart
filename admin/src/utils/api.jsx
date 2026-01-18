@@ -67,3 +67,36 @@ export const editData = async (url, updateData) => {
   });
   return response;
 };
+
+export const deleteData = async (url) => {
+  try {
+    const { data } = await axios.delete(apiUrl + url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const postDataImage = async (url, formData) => {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  try {
+      const response = await axios.post(apiUrl + url, formData, params);
+      return response.data;
+  } catch (error) {
+      console.log(error);
+      return error.response ? error.response.data : error;
+  }
+};
+
