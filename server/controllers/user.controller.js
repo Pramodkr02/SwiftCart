@@ -142,11 +142,13 @@ export async function loginUserController(req, res) {
   try {
     const { email, password } = req.body;
 
-    const user = await UserModel.findOne({ email: email });
+    const user = await UserModel.findOne({
+      email: { $regex: new RegExp(`^${email}$`, 'i') }
+    });
 
     if (!user) {
       return res.status(400).json({
-        message: "User Not registerd",
+        message: "User not found", // Fixed typo
         error: true,
         success: false,
       });
@@ -154,7 +156,7 @@ export async function loginUserController(req, res) {
 
     if (user.status !== "active") {
       return res.status(400).json({
-        message: "Contect to the admin",
+        message: "Contact the admin", // Fixed typo
         error: true,
         success: false,
       });

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
-import ProducutItem from "../../components/ProductItem/ProductItem";
+import ProductItem from "../../components/ProductItem/ProductItem";
 import { Button } from "@mui/material";
 import { IoGrid } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
@@ -10,14 +10,32 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ProductItemListView from "../../components/ProductItemListView/ProductItemListView";
 import Pagination from "@mui/material/Pagination";
+import { fetchDataFromApi } from "../../utils/api";
 
 import { useParams } from "react-router-dom";
 
 const ProductListing = () => {
   const { id } = useParams(); // Get category ID from URL
   const [ItemView, setIsOpenView] = useState("grid");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  
+  useEffect(() => {
+    window.scrollTo(0,0);
+    let url = "/api/product";
+    if(id) url += `?catId=${id}`;
+    
+    setLoading(true);
+    fetchDataFromApi(url).then((res) => {
+        if(res && res.products) {
+            setProducts(res.products);
+        }
+        setLoading(false);
+    });
+  }, [id]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,7 +61,7 @@ const ProductListing = () => {
               href="#"
               className="link transition capitalize"
             >
-              {id ? id : "Fashion"}
+              Category
             </Link>
           </Breadcrumbs>
         </div>
@@ -74,7 +92,7 @@ const ProductListing = () => {
                     <IoGrid className="text-[rgba(0,0,0,0.9)] text-[20px]" />
                   </Button>
                   <span className="pl-3 text-[14px] font-[500] text- !text-black">
-                    There are 27 products.
+                    There are {products.length} products.
                   </span>
                 </div>
 
@@ -144,32 +162,19 @@ const ProductListing = () => {
                     : "grid-cols-1 md:grid-cols-1"
                 } gap-4`}
               >
-                {ItemView === "grid" ? (
-                  <>
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                    <ProducutItem />
-                  </>
-                ) : (
-                  <>
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                    <ProductItemListView />
-                  </>
+                {/* Products Map */}
+                {products?.length > 0 && products.map((item) => (
+                    <React.Fragment key={item._id}>
+                        {ItemView === "grid" ? (
+                            <ProductItem item={item} />
+                        ) : (
+                            <ProductItemListView item={item} />
+                        )}
+                    </React.Fragment>
+                ))}
+                
+                {products.length === 0 && !loading && (
+                    <p>No products found in this category.</p>
                 )}
               </div>
               <div className="flex items-center justify-center mt-10">

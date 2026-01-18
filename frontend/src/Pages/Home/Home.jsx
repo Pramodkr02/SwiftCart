@@ -18,12 +18,19 @@ import { fetchDataFromApi } from "../../utils/api";
 const Home = () => {
   const [value, setValue] = React.useState(0);
   const [homeSlides, setHomeSlides] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetchDataFromApi("/api/homeSlider/public").then((res) => {
          if(res?.success) {
              setHomeSlides(res.data);
          }
+    });
+
+    fetchDataFromApi("/api/product").then((res) => {
+        if(res && res.products) {
+            setProducts(res.products);
+        }
     });
   }, []);
 
@@ -65,7 +72,7 @@ const Home = () => {
             </div>
           </div>
 
-          <ProductSlider items={6} />
+          <ProductSlider items={6} data={products} />
         </div>
       </section>
 
@@ -107,7 +114,7 @@ const Home = () => {
       <section className="py-5 pt-0 bg-white">
         <div className="container">
           <h3 className="text-[20px] font-[600]">Letest Products</h3>
-          <ProductSlider items={6} />
+          <ProductSlider items={6} data={products} />
 
           <AdsBannerSlider items={3} />
         </div>
@@ -116,7 +123,7 @@ const Home = () => {
       <section className="py-5 pt-0 bg-white">
         <div className="container">
           <h3 className="text-[20px] font-[600]">Feature Products</h3>
-          <ProductSlider items={6} />
+          <ProductSlider items={6} data={products.filter(p => p.isFeatured)} />
 
           <AdsBannerSlider items={3} />
         </div>

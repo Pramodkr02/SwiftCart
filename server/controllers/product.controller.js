@@ -10,13 +10,11 @@ cloudinary.config({
   secure: true,
 });
 
-//image upload
-var imageArr = [];
+// Image Upload Controller (Stateless)
 export async function upoadImageController(req, res) {
   try {
-    imageArr = [];
-
-    const image = req.files;
+    const images = req.files;
+    let imageArr = [];
 
     const options = {
       use_filename: true,
@@ -24,19 +22,21 @@ export async function upoadImageController(req, res) {
       overwrite: false,
     };
 
-    for (let i = 0; i < image?.length; i++) {
-      const img = await cloudinary.uploader.upload(
-        image[i].path,
-        options,
-        function (error, result) {
-          imageArr.push(result.secure_url);
-          fs.unlinkSync(`uploads/${req.files[i].filename}`);
-        }
-      );
+    for (let i = 0; i < images?.length; i++) {
+      const result = await cloudinary.uploader.upload(images[i].path, options);
+      imageArr.push(result.secure_url);
+      
+      // Delete file from local uploads/ folder after upload
+      if (fs.existsSync(`uploads/${images[i].filename}`)) {
+          fs.unlinkSync(`uploads/${images[i].filename}`);
+      }
     }
 
     return res.status(200).json({
       images: imageArr,
+      message: "Images uploaded successfully",
+      success: true,
+      error: false
     });
   } catch (error) {
     return res.status(500).json({
@@ -47,47 +47,60 @@ export async function upoadImageController(req, res) {
   }
 }
 
-//create Product
+// Create Product
 export async function createProduct(req, res) {
   try {
+    const { 
+        name, discription, images, brand, price, oldPrice, 
+        catName, catId, subCatId, subCat, subCatName,
+        thirdSubCat, thirdSubCatId, countInStock, rating, 
+        isFeatured, discount, productRam, size, productWeight 
+    } = req.body;
+
+    // Basic Validation
+    if (!name || !price || !catId || !subCatId) {
+        return res.status(400).json({
+             message: "Name, Price, Category, and SubCategory are required.",
+             error: true,
+             success: false
+        });
+    }
+
     let product = new ProductModel({
-      name: req.body.name,
-      discription: req.body.discription,
-      images: imageArr,
-      brand: req.body.brand,
-      price: req.body.price,
-      oldPrice: req.body.oldPrice,
-      catName: req.body.catName,
-      catId: req.body.catId,
-      subCatId: req.body.subCatId,
-      subCat: req.body.subCat,
-      subCatName: req.body.subCatName,
-      thirdSubCat: req.body.thirdSubCat,
-      thirdSubCatId: req.body.thirdSubCatId,
-      countInStock: req.body.countInStock,
-      category: req.body.category,
-      rating: req.body.rating,
-      isFeatured: req.body.isFeatured,
-      discount: req.body.discount,
-      productRam: req.body.productRam,
-      size: req.body.size,
-      productWeight: req.body.productWeight,
+      name,
+      discription,
+      images, // Expecting array of URLs from frontend
+      brand,
+      price,
+      oldPrice,
+      catName,
+      catId,
+      subCatId,
+      subCat,
+      subCatName,
+      thirdSubCat,
+      thirdSubCatId,
+      countInStock,
+      category: catId, // Using catId as reference
+      rating,
+      isFeatured,
+      discount,
+      productRam,
+      size,
+      productWeight,
     });
 
     product = await product.save();
-    console.log("hii");
 
     if (!product) {
-      res.status(500).json({
+      return res.status(500).json({
         message: "Product not created",
         error: true,
         success: false,
       });
     }
 
-    imageArr = [];
-
-    res.status(200).json({
+    return res.status(201).json({
       message: "Product created successfully",
       error: false,
       success: true,
@@ -102,15 +115,28 @@ export async function createProduct(req, res) {
   }
 }
 
-//get all product
+// Get All Products with Filtering
 export async function getAllProducts(req, res) {
   try {
     const page = parseInt(req.query.page) || 1;
-    const perPage = parseInt(req.query.perPage);
-    const totalPosts = await ProductModel.countDocuments();
+    const perPage = parseInt(req.query.perPage) || 100; // Default to 100 to show more
+    
+    // Filtering
+    let filter = {};
+    if (req.query.catId) {
+        filter.catId = req.query.catId;
+    }
+    if (req.query.subCatId) {
+        filter.subCatId = req.query.subCatId;
+    }
+    if (req.query.isFeatured) {
+        filter.isFeatured = req.query.isFeatured === 'true';
+    }
+
+    const totalPosts = await ProductModel.countDocuments(filter);
     const totalPages = Math.ceil(totalPosts / perPage);
 
-    if (page > totalPages) {
+    if (page > totalPages && totalPosts > 0) {
       return res.status(404).json({
         message: "Page not found",
         error: true,
@@ -118,25 +144,21 @@ export async function getAllProducts(req, res) {
       });
     }
 
-    const products = await ProductModel.find()
+    const products = await ProductModel.find(filter)
       .populate("category")
+      .sort({ createdAt: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage)
       .exec();
 
-    if (!products) {
-      return res.status(500).json({
-        error: true,
-        success: false,
-      });
-    }
-
     return res.status(200).json({
       error: false,
       success: true,
-      products: products,
+      data: products, // Standardized to "data" usually, but keeping compatible if "products" used elsewhere
+      products: products, 
       totalPages: totalPages,
       page: page,
+      totalPosts: totalPosts
     });
   } catch (error) {
     return res.status(500).json({
@@ -145,4 +167,97 @@ export async function getAllProducts(req, res) {
       success: false,
     });
   }
+}
+
+// Get Product By ID
+export async function getProductById(req, res) {
+    try {
+        const product = await ProductModel.findById(req.params.id).populate("category");
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found",
+                error: true,
+                success: false
+            });
+        }
+        return res.status(200).json({
+            product: product,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
+// Delete Product
+export async function deleteProduct(req, res) {
+    try {
+        const product = await ProductModel.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found",
+                error: true,
+                success: false
+            });
+        }
+
+        // Optional: Delete images from Cloudinary here if needed
+        // For now, we just delete the record
+        
+        await ProductModel.findByIdAndDelete(req.params.id);
+
+        return res.status(200).json({
+            message: "Product deleted successfully",
+            success: true,
+            error: false
+        });
+    } catch (error) {
+         return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
+// Update Product
+export async function updateProduct(req, res) {
+    try {
+        const productId = req.params.id;
+        
+        // Exclude fields that shouldn't be updated loosely if needed
+        // For now, we update everything sent in body
+        const updatedProduct = await ProductModel.findByIdAndUpdate(
+            productId,
+            req.body,
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+             return res.status(404).json({
+                message: "Product not found",
+                error: true,
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: "Product updated successfully",
+            product: updatedProduct,
+            success: true,
+            error: false
+        });
+
+    } catch (error) {
+         return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
 }

@@ -13,6 +13,7 @@ const UploadBox = (props) => {
         type="file"
         className="absolute top-0 left-0 w-full h-full z-50 opacity-0"
         multiple={props?.multiple !== undefined ? props.multiple : false}
+        onChange={props.onChange}
       />
     </div>
   );

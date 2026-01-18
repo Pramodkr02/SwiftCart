@@ -54,7 +54,7 @@ function HomeCatSlider() {
         >
           {categories?.length > 0 && categories.map((cat, index) => (
              <SwiperSlide key={index}>
-                <Link to={`/products/category/${cat._id}`}>
+                <Link to={`/product-listing/${cat._id}`}>
                 <div className="item py-7 px-3 my-5 bg-white rounded-sm text-center flex items-center justify-center flex-col shadow-sm hover:shadow-md transition-all cursor-pointer">
                     <img
                     src={cat.images?.[0] || "https://Via.placeholder.com/62"} // Fallback image

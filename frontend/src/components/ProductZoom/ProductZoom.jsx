@@ -7,7 +7,16 @@ import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
 import { useRef } from "react";
 
-const ProductZoom = () => {
+import React, { useState } from "react";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
+import InnerImageZoom from "react-inner-image-zoom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Navigation } from "swiper/modules";
+import { useRef } from "react";
+
+const ProductZoom = (props) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const zoomSliderBig = useRef();
   const zoomSliderSml = useRef();
@@ -17,6 +26,8 @@ const ProductZoom = () => {
     zoomSliderBig.current.swiper.slideTo(index);
     zoomSliderSml.current.swiper.slideTo(index);
   };
+  
+  const images = props.images || [];
 
   return (
     <div className="flex gap-3">
@@ -33,63 +44,20 @@ const ProductZoom = () => {
           modules={[Navigation]}
           className="zoomProductSliderThumbs !h-[500px] overflow-hidden rounded-md"
         >
-          <SwiperSlide>
-            <div className="item cursor-pointer group" onClick={() => goto(0)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item" onClick={() => goto(1)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-1-202410041348.jpg?im=Resize=(75,94)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item" onClick={() => goto(2)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-2-202410041348.jpg?im=Resize=(75,94)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item" onClick={() => goto(3)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-3-202410041348.jpg?im=Resize=(75,94)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item" onClick={() => goto(4)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="item" onClick={() => goto(5)}>
-              <img
-                src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-                alt=""
-                className="w-full"
-              />
-            </div>
-          </SwiperSlide>
+          {images.map((img, index) => (
+             <SwiperSlide key={index}>
+                <div className={`item cursor-pointer group ${sliderIndex === index ? 'opacity-100' : 'opacity-70'}`} onClick={() => goto(index)}>
+                  <img
+                    src={img}
+                    alt={`thumb-${index}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </SwiperSlide>
+          ))}
         </Swiper>
       </div>
-      <div className="zoomContainer w-[85%] h-[500px] overflow-hidden">
+      <div className="zoomContainer w-[85%] h-[500px] overflow-hidden bg-white">
         <Swiper
           ref={zoomSliderBig}
           slidesPerView={1}
@@ -98,62 +66,26 @@ const ProductZoom = () => {
             clickable: true,
           }}
           modules={[Navigation]}
+          onSlideChange={(swiper) => setSliderIndex(swiper.activeIndex)}
         >
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-              className="w-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-1-202410041348.jpg?im=Resize=(75,94)"
-              className="w-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-2-202410041348.jpg?im=Resize=(75,94)"
-              className="w-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-3-202410041348.jpg?im=Resize=(75,94)"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-              className="w-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-              className="w-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <InnerImageZoom
-              zoomType="hover"
-              zoomScale={1}
-              src="https://www.jiomart.com/images/product/original/441809778004/gosriki-women-s-red-rayon-blend-anarkali-kurta-set-with-dupatta-product-images-441809778004-0-202410041348.jpg?im=Resize=(600,750)"
-              className="w-full"
-            />
-          </SwiperSlide>
+          {images.map((img, index) => (
+              <SwiperSlide key={index}>
+                <InnerImageZoom
+                  zoomType="hover"
+                  zoomScale={1}
+                  src={img}
+                  className="w-full h-full object-contain" // Ensure image fits logic
+                />
+              </SwiperSlide>
+          ))}
+          
+          {images.length === 0 && (
+              <SwiperSlide>
+                  <div className="flex items-center justify-center h-full w-full">
+                      No Images Available
+                  </div>
+              </SwiperSlide>
+          )} 
         </Swiper>
       </div>
     </div>

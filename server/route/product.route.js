@@ -5,9 +5,13 @@ import {
   createProduct,
   getAllProducts,
   upoadImageController,
+  getProductById,
+  deleteProduct,
+  updateProduct,
 } from "../controllers/product.controller.js";
 
 const productRouter = Router();
+
 
 productRouter.post(
   "/uploadImages",
@@ -16,6 +20,9 @@ productRouter.post(
   upoadImageController
 );
 productRouter.post("/create", auth, createProduct);
-productRouter.get("/getAllProducts", getAllProducts);
+productRouter.get("/", getAllProducts); // Cleaner route
+productRouter.get("/:id", getProductById);
+productRouter.delete("/:id", auth, deleteProduct);
+productRouter.put("/:id", auth, updateProduct);
 
 export default productRouter;

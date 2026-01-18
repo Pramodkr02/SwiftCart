@@ -38,40 +38,16 @@ const ProductSlider = (props) => {
         modules={[Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
+        {props.data?.length > 0 && props.data.map((item) => (
+             <SwiperSlide key={item._id}>
+                <ProductItem item={item} />
+             </SwiperSlide>
+        ))}
+        
+        {(!props.data || props.data.length === 0) && (
+            <p className="text-center w-full">Loading Products...</p>
+        )}
 
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductItem />
-        </SwiperSlide>
       </Swiper>
     </div>
   );

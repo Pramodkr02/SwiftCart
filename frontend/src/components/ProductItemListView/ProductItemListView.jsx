@@ -12,27 +12,31 @@ import Tooltip from "@mui/material/Tooltip";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 function ProductItemListView(props) {
+  const item = props?.item;
+
   return (
     <div className="productItem rounded-md shadow-md overflow-hidden border-1 border-[rgba(0,0,0,0.2)] group flex items-center">
       <div className="imgWrapper w-[25%]  overflow-hidden rounded-md relative">
-        <Link to={`/product/${props.id || 1}`}>
+        <Link to={`/product/${item?._id}`}>
           <div className="img h-[250px] overflow-hidden ">
             <img
-              src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-0-202206061625.jpg?im=Resize=(600,750)"
-              alt=""
+              src={item?.images?.[0]}
+              alt={item?.name}
               className="w-full"
             />
 
             <img
-              src="https://www.jiomart.com/images/product/original/rvrzp8chyx/lorofy-women-black-net-saree-product-images-rvrzp8chyx-2-202206061625.jpg?im=Resize=(600,750)"
-              alt=""
+              src={item?.images?.[1] || item?.images?.[0]}
+              alt={item?.name}
               className="w-full transition-all duration-700 absolute top-0 left-0 opacity-0 group-hover:opacity-100"
             />
           </div>
         </Link>
-        <span className="discount flex items-center absolute top-[10px] left-[10px] z-50 rounded-md bg-primary text-white p-1 text-[12px] font-[500]">
-          -10%
-        </span>
+        {item?.discount && (
+            <span className="discount flex items-center absolute top-[10px] left-[10px] z-50 rounded-md bg-primary text-white p-1 text-[12px] font-[500]">
+              -{item?.discount}%
+            </span>
+        )}
 
         <div className="actions absolute top-[-200px] right-[5px] flex z-50 items-center gap-2 flex-col w-[50px] transition-all duration-300 group-hover:top-[15px] opacity-0 group-hover:opacity-100">
           <Tooltip title="Wishlist" placement="left-start">
@@ -54,24 +58,22 @@ function ProductItemListView(props) {
       </div>
       <div className="info p-3 px-8 py-5 w-[75%]">
         <h6 className="text-[15px] !font-[400]">
-          <Link className="link transition-all capitalize" to={`/product/${props.id || 1}`}>
-            soylent Green
+          <Link className="link transition-all capitalize" to={`/product/${item?._id}`}>
+            {item?.brand}
           </Link>
         </h6>
         <h3 className="text-[18px] title mt-3 font-[500] text-[rgba(0,0,0,0.9)] mb-3">
-          <Link className="link transition-all" to={`/product/${props.id || 1}`}>
-            Siril Georgette Pink Color Saree With Blouse piece
+          <Link className="link transition-all" to={`/product/${item?._id}`}>
+            {item?.name}
           </Link>
         </h3>
         <p className="text-[14px] mb-3 ">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-          commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
-          et magnis dis parturient montes, nascetur ridiculus mus.
+           {item?.discription?.substr(0, 150) + "..."}
         </p>
 
         <Rating
           name="size-small"
-          defaultValue={4.5}
+          value={item?.rating || 4.5}
           precision={0.5}
           size="small"
           readOnly
@@ -79,10 +81,10 @@ function ProductItemListView(props) {
 
         <div className="flex items-center gap-4">
           <span className="oldPrice line-through text-gray-500 text-[15px] font-[500]">
-            $58.00
+            ${item?.oldPrice}
           </span>
           <span className="price text-primary  text-[15px] font-[600]">
-            $58.00
+            ${item?.price}
           </span>
         </div>
         <div className="mt-3">
